@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/%7BLoLThreesRandomizer%7D/static/css/main.0e7c7a7b.chunk.css",
+    "main.js": "/%7BLoLThreesRandomizer%7D/static/js/main.1a8b633d.chunk.js",
+    "main.js.map": "/%7BLoLThreesRandomizer%7D/static/js/main.1a8b633d.chunk.js.map",
+    "runtime-main.js": "/%7BLoLThreesRandomizer%7D/static/js/runtime-main.cd0e868d.js",
+    "runtime-main.js.map": "/%7BLoLThreesRandomizer%7D/static/js/runtime-main.cd0e868d.js.map",
+    "static/js/2.3999017b.chunk.js": "/%7BLoLThreesRandomizer%7D/static/js/2.3999017b.chunk.js",
+    "static/js/2.3999017b.chunk.js.map": "/%7BLoLThreesRandomizer%7D/static/js/2.3999017b.chunk.js.map",
+    "static/js/3.3f5ae1bb.chunk.js": "/%7BLoLThreesRandomizer%7D/static/js/3.3f5ae1bb.chunk.js",
+    "static/js/3.3f5ae1bb.chunk.js.map": "/%7BLoLThreesRandomizer%7D/static/js/3.3f5ae1bb.chunk.js.map",
+    "index.html": "/%7BLoLThreesRandomizer%7D/index.html",
+    "static/css/main.0e7c7a7b.chunk.css.map": "/%7BLoLThreesRandomizer%7D/static/css/main.0e7c7a7b.chunk.css.map",
+    "static/js/2.3999017b.chunk.js.LICENSE.txt": "/%7BLoLThreesRandomizer%7D/static/js/2.3999017b.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.cd0e868d.js",
+    "static/js/2.3999017b.chunk.js",
+    "static/css/main.0e7c7a7b.chunk.css",
+    "static/js/main.1a8b633d.chunk.js"
+  ]
+}
