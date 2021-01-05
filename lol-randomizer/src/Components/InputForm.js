@@ -4,34 +4,29 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-const InputForm = ({handleButton}) => {
+const InputForm = ({handleButton, sizes}) => {
+    let forms = [];
+    for(var i = 0; i < sizes; i++){ forms.push(i+1)}
+
+    const createForms = (forms) => {
+        return forms.map((e, index) => {
+            return (
+            <Row>
+                <Col>
+                   <Form.Control type="text" placeholder={"Person " + (index * 2 + 1)} className="person bg-dark" key={"person-" + (index * 2 + 1)}/>
+               </Col>
+               <Col>
+                   <Form.Control type="text" placeholder={"Person " + (index * 2 + 2)} className="person bg-dark" key={"person-" + (index * 2 + 2)}/>
+               </Col>
+           </Row>
+           );
+        });
+    }
+
     return (
         <Form>
             <Form.Label style={{marginLeft: '8px'}}>Enter names:</Form.Label>
-            <Row>
-                <Col>
-                    <Form.Control type="text" placeholder="Person 1" className="person bg-dark"/>
-                </Col>
-                <Col>
-                    <Form.Control type="text" placeholder="Person 2" className="person bg-dark"/>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Form.Control type="text" placeholder="Person 3" className="person bg-dark"/>
-                </Col>
-                <Col>
-                    <Form.Control type="text" placeholder="Person 4" className="person bg-dark"/>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Form.Control type="text" placeholder="Person 5" className="person bg-dark"/>
-                </Col>
-                <Col>
-                    <Form.Control type="text" placeholder="Person 6" className="person bg-dark"/>
-                </Col>
-            </Row>
+            {createForms(forms)}
             <Button variant="dark" type="button" onClick={handleButton} style={{marginLeft: '8px', marginTop: '10px'}}>
                 Randomize
             </Button>

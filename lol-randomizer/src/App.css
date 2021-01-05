@@ -44,10 +44,12 @@
 
 .person {
   margin: 8px 0px;
+  color: white;
 }
 
 .card{
   margin: 8px 0px;
+  color: white;
 }
 
 .card-title{
@@ -56,5 +58,9 @@
 
 body{
   background-color: #121212;
+  color: white;
+}
+
+.person:focus {
   color: white;
 }

@@ -34,8 +34,6 @@ const Teams = ({teams}) => {
             </Row>
         )
     });
-    console.log(teamACards)
-    console.log(output[0]);
 
     return (
         <p style={{marginTop: '1%'}}>{output}</p>
