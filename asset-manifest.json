@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/LoLThreesRandomizer/static/css/main.85b1c696.chunk.css",
+    "main.css": "/LoLThreesRandomizer/static/css/main.406b40f4.chunk.css",
     "main.js": "/LoLThreesRandomizer/static/js/main.1a8b633d.chunk.js",
     "main.js.map": "/LoLThreesRandomizer/static/js/main.1a8b633d.chunk.js.map",
     "runtime-main.js": "/LoLThreesRandomizer/static/js/runtime-main.263ae0aa.js",
@@ -10,13 +10,13 @@
     "static/js/3.3f5ae1bb.chunk.js": "/LoLThreesRandomizer/static/js/3.3f5ae1bb.chunk.js",
     "static/js/3.3f5ae1bb.chunk.js.map": "/LoLThreesRandomizer/static/js/3.3f5ae1bb.chunk.js.map",
     "index.html": "/LoLThreesRandomizer/index.html",
-    "static/css/main.85b1c696.chunk.css.map": "/LoLThreesRandomizer/static/css/main.85b1c696.chunk.css.map",
+    "static/css/main.406b40f4.chunk.css.map": "/LoLThreesRandomizer/static/css/main.406b40f4.chunk.css.map",
     "static/js/2.3999017b.chunk.js.LICENSE.txt": "/LoLThreesRandomizer/static/js/2.3999017b.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.263ae0aa.js",
     "static/js/2.3999017b.chunk.js",
-    "static/css/main.85b1c696.chunk.css",
+    "static/css/main.406b40f4.chunk.css",
     "static/js/main.1a8b633d.chunk.js"
   ]
 }
