@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import Container from 'react-bootstrap/Container';
+import { Table, Container } from 'react-bootstrap';
 import InputForm from './InputForm';
 import Teams from './Teams';
 import Selection from './Selection';
+import PlayerTable from './PlayerTable';
 
 const Randomizer = () => {
-    const [teams, SetTeams] = useState([[],[]]);
+    const [teams, SetTeams] = useState([[], []]);
     const [teamSizes, SetSize] = useState(3);
 
     /*ROLES TEMP DISABLED WHILE ADDING NEW INPUT*/
@@ -23,10 +24,10 @@ const Randomizer = () => {
                                     : teamB.push([person, teamBRoles.splice(Math.floor(Math.random() * teamBRoles.length), 1)]);
         }*/
 
-        while(arr.length > 0){
+        while (arr.length > 0) {
             const person = arr.splice(Math.floor(Math.random() * arr.length), 1);
-            (arr.length % 2 === 0) ? teamA.push([person, "ROLES DISABLED TEMP"]) 
-                                    : teamB.push([person, "ROLES DISABLED TEMP"]);
+            (arr.length % 2 === 0) ? teamA.push([person, "ROLES DISABLED TEMP"])
+                : teamB.push([person, "ROLES DISABLED TEMP"]);
         }
 
         return [teamA, teamB];
@@ -53,8 +54,9 @@ const Randomizer = () => {
     return (
         <Container>
             <Selection handleChange={handleSizeChange} />
-            <InputForm handleButton={handleRandomizeButton} sizes={teamSizes}/>
-            <Teams teams={teams} />   
+            <InputForm handleButton={handleRandomizeButton} sizes={teamSizes} />
+            <Teams teams={teams} />
+            <PlayerTable/>
         </Container>
     );
 
