@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Table } from 'react-bootstrap';
 import PropTypes from 'prop-types'
 
 function PlayerTable({ players }) {
+
+    useEffect(() => {
+        players.sort((a, b) => b.wins - a.wins);
+    }, [players])
+
     return (
         <Table striped bordered hover variant="light">
             <thead>

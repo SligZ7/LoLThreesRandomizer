@@ -36,7 +36,7 @@ const Teams = ({ redTeam, blueTeam, players, games, setGames }) => {
         )
     });
 
-    const handleBlueWinButton = () => {
+    const handleRedWinButton = () => {
         redTeam.forEach(element => {
             const index = players.findIndex(player => player.name === element[0]);
             players[index].wins++;
@@ -48,7 +48,7 @@ const Teams = ({ redTeam, blueTeam, players, games, setGames }) => {
         setGames(games + 1);
     }
 
-    const handleRedWinButton = () => {
+    const handleBlueWinButton = () => {
         blueTeam.forEach(element => {
             const index = players.findIndex(player => player.name === element[0]);
             players[index].wins++;
