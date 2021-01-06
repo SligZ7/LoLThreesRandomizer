@@ -3,28 +3,28 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 
-const Teams = ({teams}) => {
-    const teamACards = teams[0].map((person, index) => {
+const Teams = ({ redTeam, blueTeam }) => {
+    const teamACards = blueTeam.map((person, index) => {
         return (
-            <Card className="bg-dark text-white">
+            <Card className="bg-dark text-white" key={index}>
                 <Card.Title>{person[0]}</Card.Title>
-                <Card.Header>{person[1]}</Card.Header>
+                <Card.Header>{person[0]}</Card.Header>
             </Card>
         )
     });
 
-    const teamBCards = teams[1].map((person, index) => {
+    const teamBCards = redTeam.map((person, index) => {
         return (
-            <Card className="bg-dark text-white">
+            <Card className="bg-dark text-white" key={index}>
                 <Card.Title>{person[0]}</Card.Title>
-                <Card.Header>{person[1]}</Card.Header>
+                <Card.Header>{person[0]}</Card.Header>
             </Card>
         )
     });
 
     const output = teamACards.map((card, index) => {
         return (
-            <Row>
+            <Row key={index}>
                 <Col>
                     {card}
                 </Col>
@@ -36,7 +36,7 @@ const Teams = ({teams}) => {
     });
 
     return (
-        <p style={{marginTop: '1%'}}>{output}</p>
+        <div style={{ marginTop: '1%' }}>{output}</div>
     );
 
 }

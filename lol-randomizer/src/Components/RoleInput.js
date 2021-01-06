@@ -4,10 +4,10 @@ import Form from 'react-bootstrap/Form';
 /*
     TO DO: Allow roles to be toggled, Allow which roles to choose from.
 */
-const RoleInput = ({handleChange}) => {
+const RoleInput = ({ handleChange }) => {
 
     return (
-        <p>Hello World!</p>
+        <div>Hello World!</div>
     );
 
 }
