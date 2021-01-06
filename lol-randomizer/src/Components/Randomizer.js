@@ -36,8 +36,6 @@ const Randomizer = () => {
                 });
             }
         });
-        console.log('players', players);
-        console.log('temp', tempPlayers);
         setPlayers([...players, ...tempPlayers]);
 
         while (arr.length > 0) {
