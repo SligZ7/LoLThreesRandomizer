@@ -2,8 +2,9 @@ import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
+import { Button } from 'react-bootstrap';
 
-const Teams = ({ redTeam, blueTeam }) => {
+const Teams = ({ redTeam, blueTeam, players, games, setGames }) => {
     const teamACards = blueTeam.map((person, index) => {
         return (
             <Card className="bg-dark text-white" key={index}>
@@ -35,8 +36,42 @@ const Teams = ({ redTeam, blueTeam }) => {
         )
     });
 
+    const handleBlueWinButton = () => {
+        redTeam.forEach(element => {
+            const index = players.findIndex(player => player.name === element[0]);
+            players[index].wins++;
+        });
+        blueTeam.forEach(element => {
+            const index = players.findIndex(player => player.name === element[0]);
+            players[index].loses++;
+        });
+        setGames(games + 1);
+    }
+
+    const handleRedWinButton = () => {
+        blueTeam.forEach(element => {
+            const index = players.findIndex(player => player.name === element[0]);
+            players[index].wins++;
+        });
+        redTeam.forEach(element => {
+            const index = players.findIndex(player => player.name === element[0]);
+            players[index].loses++;
+        });
+        setGames(games + 1);
+    }
+
     return (
-        <div style={{ marginTop: '1%' }}>{output}</div>
+        <div>
+            {output}
+            <div style={{ display: 'flex', justifyContent: 'space-between', margin: '2rem' }}>
+                <Button variant="dark" type="button" onClick={handleBlueWinButton} style={{ backgroundColor: '#00008B' }}>
+                    Blue wins
+            </Button>
+                <Button variant="dark" type="button" onClick={handleRedWinButton} style={{ backgroundColor: '#8B0000' }}>
+                    Red wins
+            </Button>
+            </div>
+        </div>
     );
 
 }

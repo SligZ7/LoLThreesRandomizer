@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Container } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import InputForm from './InputForm';
 import Teams from './Teams';
 import Selection from './Selection';
@@ -63,44 +63,13 @@ const Randomizer = () => {
         randomize(persons);
     }
 
-    const handleBlueWinButton = () => {
-        redTeam.forEach(element => {
-            const index = players.findIndex(player => player.name === element[0]);
-            players[index].wins++;
-        });
-        blueTeam.forEach(element => {
-            const index = players.findIndex(player => player.name === element[0]);
-            players[index].loses++;
-        });
-        setGames(games + 1);
-    }
-
-    const handleRedWinButton = () => {
-        blueTeam.forEach(element => {
-            const index = players.findIndex(player => player.name === element[0]);
-            players[index].wins++;
-        });
-        redTeam.forEach(element => {
-            const index = players.findIndex(player => player.name === element[0]);
-            players[index].loses++;
-        });
-        setGames(games + 1);
-    }
-
     return (
         <Container>
             <Selection handleChange={handleSizeChange} />
             <InputForm handleButton={handleRandomizeButton} sizes={teamSizes} />
-            <div style={{ display: 'flex', justifyContent: 'space-between', margin: '0px 2rem 0px 2rem' }}>
-                <Button variant="dark" type="button" onClick={handleBlueWinButton} style={{ backgroundColor: '#00008B' }}>
-                    Blue wins
-            </Button>
-                <Button variant="dark" type="button" onClick={handleRedWinButton} style={{ backgroundColor: '#8B0000' }}>
-                    Red wins
-            </Button>
-            </div>
-            <Teams redTeam={redTeam} blueTeam={blueTeam} />
-            <PlayerTable players={players} />
+            <Teams redTeam={redTeam} blueTeam={blueTeam} players={players} games={games} setGames={setGames}/>
+            {players.length > 0 &&
+                <div style={{ marginTop: '2rem' }}><PlayerTable players={players} /></div>}
         </Container>
     );
 
