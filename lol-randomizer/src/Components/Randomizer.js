@@ -4,6 +4,8 @@ import Teams from "./Teams";
 import PlayerTable from "./PlayerTable";
 import DnD from "./Dnd";
 import axios from 'axios';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
 const Randomizer = () => {
     const [allPlayers, setAllPlayers] = useState([]);
@@ -69,12 +71,15 @@ const Randomizer = () => {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start", marginBottom: "5rem" }}>
                 <DnD players={players} setPlayers={setPlayers} handleRandomize={handleRandomize} />
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '5rem' }}>
-                    <Form.Check type="checkbox" label="Force roles" onChange={handleRolesToggle} />
+                    <FormControlLabel
+                        control={<Switch checked={skipRoles} onChange={handleRolesToggle} name="roles" />}
+                        label="Force roles"
+                    />
                     <Button variant="dark" type="button" onClick={handleRandomize}>
                         Re-roll
                  </Button>
                 </div>
-                {redTeam.length > 0 && blueTeam.length > 0 && (<div style={{ marginRight: "5rem"}}>
+                {redTeam.length > 0 && blueTeam.length > 0 && (<div style={{ marginRight: "5rem" }}>
                     <Teams redTeam={redTeam} blueTeam={blueTeam} players={allPlayers} setAllPlayers={setAllPlayers} handleRandomize={handleRandomize} />
                 </div>)}
             </div>
