@@ -5,11 +5,13 @@ import axios from 'axios';
 
 function PlayerTable({ allPlayers }) {
     const [stats, setStats] = useState([]);
+    const [statsPlayer, setStatsPlayer] = useState("");
     const [hideTable, setHideTable] = useState(false)
 
-    const handleStats = (id) => () => {
+    const handleStats = (id, name) => () => {
         axios.get(`http://localhost:5000/stats/${id}`).then(res => {
             res.data.sort((a, b) => b.wins - a.wins || a.loses - b.loses);
+            setStatsPlayer(name);
             setStats(res.data);
             setHideTable(true);
         });
@@ -38,7 +40,7 @@ function PlayerTable({ allPlayers }) {
                             return (
                                 <tr key={`${player.id}-${index}`}>
                                     <td>{index + 1}</td>
-                                    <td onClick={handleStats(player.id)} style={{ cursor: 'pointer' }}>{player.name}</td>
+                                    <td onClick={handleStats(player.id, player.name)} style={{ cursor: 'pointer' }}>{player.name}</td>
                                     <td>{player.wins}</td>
                                     <td>{player.loses}</td>
                                     <td style={{
@@ -56,8 +58,15 @@ function PlayerTable({ allPlayers }) {
                 <Table striped bordered small="true" className="text-black" style={{ height: '79%', background: "lightblue", fontWeight: 'bold' }}>
                     <thead>
                         <tr >
+                            <th></th>
+                            <th></th>
+                            <th>{statsPlayer}</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr >
                             <th>#</th>
-                            <th>Team mate</th>
+                            <th>Player</th>
                             <th>Wins</th>
                             <th>Loses</th>
                             <th>W/R %</th>
