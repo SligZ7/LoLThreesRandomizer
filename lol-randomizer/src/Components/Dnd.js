@@ -84,7 +84,6 @@ const Dnd = ({ players, setPlayers, handleRandomize }) => {
           items: result.droppable,
           selected: result.droppable2
         });
-        console.log('source, dest', sourceList, destList);
       }
     }
   }
