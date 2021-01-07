@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Button } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import Teams from './Teams';
 import PlayerTable from './PlayerTable';
 import DnD from './Dnd';

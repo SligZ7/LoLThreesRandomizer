@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { Container, Button } from 'react-bootstrap';
 /**
  * Moves an item from one list to another list.
  */
@@ -40,10 +39,10 @@ const getListStyle = isDraggingOver => ({
 });
 
 const Dnd = ({ players, setPlayers, handleRandomize }) => {
-  
+
   useEffect(() => {
     handleRandomize();
-  }, [players])
+  }, [players, handleRandomize])
   /**
  * A semi-generic way to handle multiple lists. Matches
  * the IDs of the droppable container to the names of the
@@ -105,7 +104,7 @@ const Dnd = ({ players, setPlayers, handleRandomize }) => {
                   color: "black",
                   marginLeft: '2.5rem',
                 }}>Available</p>
-                {players.items ?.map((item, index) => (
+                {players.items.map((item, index) => (
                   <Draggable key={item.id} draggableId={item.id} index={index}>
                     {(provided, snapshot) => (
                       <div
@@ -140,7 +139,7 @@ const Dnd = ({ players, setPlayers, handleRandomize }) => {
                   color: "black",
                   marginLeft: '2.5rem',
                 }}>Selected</p>
-                {players.selected ?.map((item, index) => (
+                {players.selected.map((item, index) => (
                   <Draggable key={item.id} draggableId={item.id} index={index}>
                     {(provided, snapshot) => (
                       <div
