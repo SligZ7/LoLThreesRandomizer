@@ -1,15 +1,22 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import { Button } from 'react-bootstrap';
 
-const Teams = ({ redTeam, blueTeam, players, games, setGames }) => {
+const Teams = ({ redTeam, blueTeam, setAllPlayers, handleRandomize }) => {
+    const [tracked, setTracked] = useState(false);
+
+    const handlePlayAgain = () => {
+        handleRandomize();
+        setTracked(false);
+    }
+
     const teamACards = blueTeam.map((person, index) => {
         return (
             <Card className="bg-dark text-white" key={index}>
-                <Card.Title>{person[0]}</Card.Title>
-                <Card.Header>{person[0]}</Card.Header>
+                <Card.Title>{person.name}</Card.Title>
+                <Card.Header>{person.role}</Card.Header>
             </Card>
         )
     });
@@ -17,8 +24,8 @@ const Teams = ({ redTeam, blueTeam, players, games, setGames }) => {
     const teamBCards = redTeam.map((person, index) => {
         return (
             <Card className="bg-dark text-white" key={index}>
-                <Card.Title>{person[0]}</Card.Title>
-                <Card.Header>{person[0]}</Card.Header>
+                <Card.Title>{person.name}</Card.Title>
+                <Card.Header>{person.role}</Card.Header>
             </Card>
         )
     });
@@ -26,10 +33,10 @@ const Teams = ({ redTeam, blueTeam, players, games, setGames }) => {
     const output = teamACards.map((card, index) => {
         return (
             <Row key={index}>
-                <Col>
+                <Col >
                     {card}
-                </Col>
-                <Col>
+                </Col >
+                <Col style={{ width: '20rem' }}>
                     {teamBCards[index]}
                 </Col>
             </Row>
@@ -38,40 +45,46 @@ const Teams = ({ redTeam, blueTeam, players, games, setGames }) => {
 
     const handleRedWinButton = () => {
         redTeam.forEach(element => {
-            const index = players.findIndex(player => player.name === element[0]);
-            players[index].wins++;
+            element.wins++;
         });
         blueTeam.forEach(element => {
-            const index = players.findIndex(player => player.name === element[0]);
-            players[index].loses++;
+            element.loses++;
         });
-        setGames(games + 1);
+        setAllPlayers([...redTeam, ...blueTeam]);
+        setTracked(true);
     }
 
     const handleBlueWinButton = () => {
         blueTeam.forEach(element => {
-            const index = players.findIndex(player => player.name === element[0]);
-            players[index].wins++;
+            element.wins++;
         });
         redTeam.forEach(element => {
-            const index = players.findIndex(player => player.name === element[0]);
-            players[index].loses++;
+            element.loses++;
         });
-        setGames(games + 1);
+        setAllPlayers([...redTeam, ...blueTeam]);
+        setTracked(true);
     }
 
     return (
         <div>
             {output}
-            <div style={{ display: 'flex', justifyContent: 'space-between', margin: '2rem' }}>
-                <Button variant="dark" type="button" onClick={handleBlueWinButton} style={{ backgroundColor: '#00008B' }}>
-                    Blue wins
-            </Button>
-                <Button variant="dark" type="button" onClick={handleRedWinButton} style={{ backgroundColor: '#8B0000' }}>
-                    Red wins
-            </Button>
+            <div style={{ display: 'flex', justifyContent: 'space-around', margin: '1rem 0rem 1rem 0rem' }}>
+                {!tracked ? (
+                    <>
+                        <Button variant="dark" type="button" onClick={handleBlueWinButton} style={{ backgroundColor: '#00008B' }}>
+                            Blue wins
+                        </Button>
+                        <Button variant="dark" type="button" onClick={handleRedWinButton} style={{ backgroundColor: '#8B0000' }}>
+                            Red wins
+                         </Button>
+                    </>) :
+                    (
+                        <Button variant="dark" type="button" onClick={handlePlayAgain}>
+                            Play again
+                         </Button>
+                    )}
             </div>
-        </div>
+        </div >
     );
 
 }
