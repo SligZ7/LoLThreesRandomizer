@@ -68,8 +68,8 @@ const Randomizer = () => {
     };
 
     return (
-        <div style={{ backgroundColor: '#333333', padding: '5rem 15rem 0rem 15rem' }}>
-            <div style={{ display: "flex", justifyContent: "space-evenly", alignItems: "start", marginBottom: "5rem" }}>
+        <div style={{ backgroundColor: '#333333', padding: '5rem 15rem 0rem 15rem'}}>
+            <div style={{ display: "flex", justifyContent: "space-evenly", alignItems: "start" }}>
                 <DnD players={players} setPlayers={setPlayers} handleRandomize={handleRandomize} />
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', width: '40rem' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', paddingBottom: '3rem' }}>
