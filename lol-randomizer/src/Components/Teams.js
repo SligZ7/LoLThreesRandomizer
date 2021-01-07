@@ -16,7 +16,7 @@ const Teams = ({ redTeam, blueTeam, players, setAllPlayers, handleRandomize }) =
     const teamACards = blueTeam.map((person, index) => {
         return (
             <Card className="text-white" key={index} style={{ width: '12rem', background: 'RoyalBlue' }}>
-                <Card.Title style={{marginTop: '.5rem'}}>{person.name}</Card.Title>
+                <Card.Title style={{ marginTop: '.5rem' }}>{person.name}</Card.Title>
                 <Card.Header>{person.role}</Card.Header>
             </Card>
         )
@@ -25,7 +25,7 @@ const Teams = ({ redTeam, blueTeam, players, setAllPlayers, handleRandomize }) =
     const teamBCards = redTeam.map((person, index) => {
         return (
             <Card className="text-white" key={index} style={{ width: '12rem', background: 'IndianRed' }}>
-                <Card.Title style={{marginTop: '.5rem'}}>{person.name}</Card.Title>
+                <Card.Title style={{ marginTop: '.5rem' }}>{person.name}</Card.Title>
                 <Card.Header>{person.role}</Card.Header>
             </Card>
         )
@@ -45,44 +45,66 @@ const Teams = ({ redTeam, blueTeam, players, setAllPlayers, handleRandomize }) =
     });
 
     const handleRedWinButton = () => {
+        const winnersArray = [];
+        const losersArray = [];
+        const loserIdsArray = [];
+        const winnerIdsArray = [];
+
         redTeam.forEach(element => {
-            axios.get(`http://localhost:5000/win/${element.id}`)
-                .then(res => {
-                    element.wins++;
-                })
+            winnersArray.push(`${element.name}-${element.id}`);
+            winnerIdsArray.push(element.id);
+            element.wins++;
         });
+
         blueTeam.forEach(element => {
-            axios.get(`http://localhost:5000/lose/${element.id}`)
-                .then(res => {
-                    element.loses++;
-                })
+            losersArray.push(`${element.name}-${element.id}`);
+            loserIdsArray.push(element.id);
+            element.loses++;
         });
-        axios.get('http://localhost:5000/players')
-            .then(res => {
+
+        const losers = losersArray.join(',');
+        const winners = winnersArray.join(',');
+        const loserIds = loserIdsArray.join(',');
+        const winnerIds = winnerIdsArray.join(',');
+
+        axios.post('http://localhost:5000/games',
+            { game_size: redTeam.length, winners, losers, winning_side: 'red', loserIds, winnerIds }).then((res) => {
                 const data = res.data;
+                data.sort((a, b) => b.wins - a.wins || a.loses - b.loses);
                 setAllPlayers(data);
-            })
+            });
         setTracked(true);
     }
 
     const handleBlueWinButton = () => {
+        const winnersArray = [];
+        const losersArray = [];
+        const loserIdsArray = [];
+        const winnerIdsArray = [];
+
         blueTeam.forEach(element => {
-            axios.get(`http://localhost:5000/win/${element.id}`)
-                .then(res => {
-                    element.wins++;
-                })
+            winnersArray.push(`${element.name}-${element.id}`);
+            winnerIdsArray.push(element.id);
+            element.wins++;
         });
+
         redTeam.forEach(element => {
-            axios.get(`http://localhost:5000/lose/${element.id}`)
-                .then(res => {
-                    element.loses++;
-                })
+            losersArray.push(`${element.name}-${element.id}`);
+            loserIdsArray.push(element.id);
+            element.loses++;
         });
-        axios.get('http://localhost:5000/players')
-            .then(res => {
+
+        const losers = losersArray.join(',');
+        const winners = winnersArray.join(',');
+        const loserIds = loserIdsArray.join(',');
+        const winnerIds = winnerIdsArray.join(',');
+
+        axios.post('http://localhost:5000/games',
+            { game_size: redTeam.length, winners, losers, winning_side: 'blue', loserIds, winnerIds }).then((res) => {
                 const data = res.data;
+                data.sort((a, b) => b.wins - a.wins || a.loses - b.loses);
                 setAllPlayers(data);
-            })
+            });
         setTracked(true);
     }
 

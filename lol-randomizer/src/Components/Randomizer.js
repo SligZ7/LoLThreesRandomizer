@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Form, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import Teams from "./Teams";
 import PlayerTable from "./PlayerTable";
 import DnD from "./Dnd";
@@ -15,9 +15,9 @@ const Randomizer = () => {
     const [forceRoles, setForceRoles] = useState(false);
     useEffect(() => {
         axios.get('http://localhost:5000/players')
-
             .then(res => {
                 const data = res.data;
+                data.sort((a, b) => b.wins - a.wins || a.loses - b.loses);
                 setAllPlayers(data);
                 setPlayers({ items: data, selected: [] })
             })
@@ -68,7 +68,7 @@ const Randomizer = () => {
     };
 
     return (
-        <div style={{ backgroundColor: '#333333', padding: '5rem 15rem 0rem 15rem'}}>
+        <div style={{ backgroundColor: '#333333', padding: '5rem 15rem 0rem 15rem' }}>
             <div style={{ display: "flex", justifyContent: "space-evenly", alignItems: "start" }}>
                 <DnD players={players} setPlayers={setPlayers} handleRandomize={handleRandomize} />
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', width: '40rem' }}>
@@ -88,7 +88,6 @@ const Randomizer = () => {
             </div>
         </div>
     );
-
 }
 
 export default Randomizer;
