@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
@@ -15,8 +15,8 @@ const Teams = ({ redTeam, blueTeam, players, setAllPlayers, handleRandomize }) =
 
     const teamACards = blueTeam.map((person, index) => {
         return (
-            <Card className="bg-dark text-white" key={index}>
-                <Card.Title>{person.name}</Card.Title>
+            <Card className="text-white" key={index} style={{ width: '12rem', background: 'RoyalBlue' }}>
+                <Card.Title style={{marginTop: '.5rem'}}>{person.name}</Card.Title>
                 <Card.Header>{person.role}</Card.Header>
             </Card>
         )
@@ -24,8 +24,8 @@ const Teams = ({ redTeam, blueTeam, players, setAllPlayers, handleRandomize }) =
 
     const teamBCards = redTeam.map((person, index) => {
         return (
-            <Card className="bg-dark text-white" key={index}>
-                <Card.Title>{person.name}</Card.Title>
+            <Card className="text-white" key={index} style={{ width: '12rem', background: 'IndianRed' }}>
+                <Card.Title style={{marginTop: '.5rem'}}>{person.name}</Card.Title>
                 <Card.Header>{person.role}</Card.Header>
             </Card>
         )
@@ -37,7 +37,7 @@ const Teams = ({ redTeam, blueTeam, players, setAllPlayers, handleRandomize }) =
                 <Col >
                     {card}
                 </Col >
-                <Col style={{ width: '20rem' }}>
+                <Col >
                     {teamBCards[index]}
                 </Col>
             </Row>
@@ -47,15 +47,15 @@ const Teams = ({ redTeam, blueTeam, players, setAllPlayers, handleRandomize }) =
     const handleRedWinButton = () => {
         redTeam.forEach(element => {
             axios.get(`http://localhost:5000/win/${element.id}`)
-            .then(res => {
-                element.wins++;
-            })
+                .then(res => {
+                    element.wins++;
+                })
         });
         blueTeam.forEach(element => {
             axios.get(`http://localhost:5000/lose/${element.id}`)
-            .then(res => {
-                element.loses++;
-            })
+                .then(res => {
+                    element.loses++;
+                })
         });
         axios.get('http://localhost:5000/players')
             .then(res => {
@@ -68,21 +68,21 @@ const Teams = ({ redTeam, blueTeam, players, setAllPlayers, handleRandomize }) =
     const handleBlueWinButton = () => {
         blueTeam.forEach(element => {
             axios.get(`http://localhost:5000/win/${element.id}`)
-            .then(res => {
-                element.wins++;
-            })
+                .then(res => {
+                    element.wins++;
+                })
         });
         redTeam.forEach(element => {
             axios.get(`http://localhost:5000/lose/${element.id}`)
-            .then(res => {
-                element.loses++;
-            })
+                .then(res => {
+                    element.loses++;
+                })
         });
         axios.get('http://localhost:5000/players')
-        .then(res => {
-            const data = res.data;
-            setAllPlayers(data);
-        })
+            .then(res => {
+                const data = res.data;
+                setAllPlayers(data);
+            })
         setTracked(true);
     }
 

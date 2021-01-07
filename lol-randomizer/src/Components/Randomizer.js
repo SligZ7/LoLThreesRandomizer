@@ -12,9 +12,10 @@ const Randomizer = () => {
     const [blueTeam, setBlueTeam] = useState([]);
     const [redTeam, setRedTeam] = useState([]);
     const [players, setPlayers] = useState({ items: [], selected: [] });
-    const [skipRoles, setSkipRoles] = useState(true);
+    const [forceRoles, setForceRoles] = useState(false);
     useEffect(() => {
         axios.get('http://localhost:5000/players')
+
             .then(res => {
                 const data = res.data;
                 setAllPlayers(data);
@@ -28,15 +29,15 @@ const Randomizer = () => {
             return;
         }
 
-        let blueRoles = ["any", "any", "any", "any", "any"];
-        let redRoles = ["any", "any", "any", "any", "any"];
-        if (!skipRoles) {
-            blueRoles = ["jungle", "lane", "lane"];
-            redRoles = ["jungle", "lane", "lane"];
+        let blueRoles = ["Choose your destiny", "Choose your destiny", "Choose your destiny", "Choose your destiny", "Choose your destiny"];
+        let redRoles = ["Choose your destiny", "Choose your destiny", "Choose your destiny", "Choose your destiny", "Choose your destiny"];
+        if (forceRoles) {
+            blueRoles = ["Jungle", "Lane", "Lane"];
+            redRoles = ["Jungle", "Lane", "Lane"];
             let remaining = (len % 6) / 2;
             while (remaining > 0) {
-                blueRoles.push("lane");
-                redRoles.push("lane");
+                blueRoles.push("Lane");
+                redRoles.push("Lane");
                 remaining--;
             }
         }
@@ -63,28 +64,29 @@ const Randomizer = () => {
 
 
     const handleRolesToggle = () => {
-        setSkipRoles(!skipRoles);
+        setForceRoles(!forceRoles);
     };
 
     return (
-        <Container>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start", marginBottom: "5rem" }}>
+        <div style={{ backgroundColor: '#333333', padding: '5rem 15rem 0rem 15rem' }}>
+            <div style={{ display: "flex", justifyContent: "space-evenly", alignItems: "start", marginBottom: "5rem" }}>
                 <DnD players={players} setPlayers={setPlayers} handleRandomize={handleRandomize} />
-                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '5rem' }}>
-                    <FormControlLabel
-                        control={<Switch checked={skipRoles} onChange={handleRolesToggle} name="roles" />}
-                        label="Force roles"
-                    />
-                    <Button variant="dark" type="button" onClick={handleRandomize}>
-                        Re-roll
+                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', width: '40rem' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', paddingBottom: '3rem' }}>
+                        <FormControlLabel
+                            control={<Switch checked={forceRoles} onChange={handleRolesToggle} name="roles" inputProps={{ 'aria-label': 'checkbox with default color' }} />}
+                            label="Force roles"
+                        />
+                        <Button type="button" variant="secondary" onClick={handleRandomize} style={{ width: '10rem' }} disabled={players.selected.length < 6 || players.selected.length % 2 !== 0}>
+                            Randomize
                  </Button>
+                    </div>
+                    {redTeam.length > 0 && blueTeam.length > 0 &&
+                        <Teams redTeam={redTeam} blueTeam={blueTeam} players={allPlayers} setAllPlayers={setAllPlayers} handleRandomize={handleRandomize} />}
                 </div>
-                {redTeam.length > 0 && blueTeam.length > 0 && (<div style={{ marginRight: "5rem" }}>
-                    <Teams redTeam={redTeam} blueTeam={blueTeam} players={allPlayers} setAllPlayers={setAllPlayers} handleRandomize={handleRandomize} />
-                </div>)}
+                <PlayerTable allPlayers={allPlayers} />
             </div>
-            <PlayerTable allPlayers={allPlayers} />
-        </Container >
+        </div>
     );
 
 }

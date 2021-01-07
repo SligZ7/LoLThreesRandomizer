@@ -26,7 +26,8 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   color: "black",
   // change background colour if dragging
   background: isDragging ? "lightgreen" : "grey",
-
+  borderRadius: '.5rem',
+  fontWeight: 'bold',
   // styles we need to apply on draggables
   ...draggableStyle
 });
@@ -34,15 +35,16 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 const getListStyle = isDraggingOver => ({
   background: isDraggingOver ? "lightblue" : "lightgrey",
   padding: grid,
-  width: 150,
+  width: 200,
   height: 750,
+  borderRadius: '.5rem'
 });
 
 const Dnd = ({ players, setPlayers, handleRandomize }) => {
 
   useEffect(() => {
     handleRandomize();
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [players])
   /**
  * A semi-generic way to handle multiple lists. Matches
@@ -102,7 +104,7 @@ const Dnd = ({ players, setPlayers, handleRandomize }) => {
                 <p style={{
                   marginTop: '1rem',
                   color: "black",
-                  marginLeft: '2.5rem',
+                  fontWeight: 'bold'
                 }}>Available</p>
                 {players.items.map((item, index) => (
                   <Draggable key={item.id} draggableId={`${item.id}`} index={index}>
@@ -137,10 +139,10 @@ const Dnd = ({ players, setPlayers, handleRandomize }) => {
                 <p style={{
                   marginTop: '1rem',
                   color: "black",
-                  marginLeft: '2.5rem',
+                  fontWeight: 'bold'
                 }}>Selected</p>
                 {players.selected.map((item, index) => (
-                  <Draggable key={item.id} draggableId={`${item.id}`}index={index}>
+                  <Draggable key={item.id} draggableId={`${item.id}`} index={index}>
                     {(provided, snapshot) => (
                       <div
                         ref={provided.innerRef}
