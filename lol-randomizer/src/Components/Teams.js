@@ -50,7 +50,6 @@ const Teams = ({ redTeam, blueTeam, players, setAllPlayers, handleRandomize }) =
         blueTeam.forEach(element => {
             element.loses++;
         });
-        console.log(players);
         setAllPlayers([...players]);
         setTracked(true);
     }

@@ -3,7 +3,7 @@ import { Table } from 'react-bootstrap';
 import PropTypes from 'prop-types'
 
 function PlayerTable({ allPlayers }) {
-    allPlayers.sort((a, b) => b.wins - a.wins);
+    allPlayers.sort((a, b) => b.wins - a.wins || a.loses - b.loses);
 
     return (
         <Table striped bordered className="text-white">

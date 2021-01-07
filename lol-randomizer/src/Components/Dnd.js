@@ -91,7 +91,7 @@ const Dnd = ({ players, setPlayers, handleRandomize }) => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div style={{ display: 'flex' }}>
-        <div style={{ marginRight: '5rem' }}>
+        <div style={{ marginRight: '3rem' }}>
           <Droppable droppableId="droppable">
             {(provided, snapshot) => (
               <div
