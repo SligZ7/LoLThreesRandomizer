@@ -28,8 +28,8 @@ const Randomizer = () => {
         }
         const blueRoles = ["jungle", "lane", "lane"];
         const redRoles = ["jungle", "lane", "lane"];
-        let remaining = len % 6;
-        while (remaining >= 1) {
+        let remaining = (len % 6) / 2;
+        while (remaining > 0) {
             blueRoles.push("lane");
             redRoles.push("lane");
             remaining--;
