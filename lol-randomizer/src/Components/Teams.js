@@ -3,6 +3,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import { Button } from 'react-bootstrap';
+import axios from 'axios';
 
 const Teams = ({ redTeam, blueTeam, players, setAllPlayers, handleRandomize }) => {
     const [tracked, setTracked] = useState(false);
@@ -45,23 +46,43 @@ const Teams = ({ redTeam, blueTeam, players, setAllPlayers, handleRandomize }) =
 
     const handleRedWinButton = () => {
         redTeam.forEach(element => {
-            element.wins++;
+            axios.get(`http://localhost:5000/win/${element.id}`)
+            .then(res => {
+                element.wins++;
+            })
         });
         blueTeam.forEach(element => {
-            element.loses++;
+            axios.get(`http://localhost:5000/lose/${element.id}`)
+            .then(res => {
+                element.loses++;
+            })
         });
-        setAllPlayers([...players]);
+        axios.get('http://localhost:5000/players')
+            .then(res => {
+                const data = res.data;
+                setAllPlayers(data);
+            })
         setTracked(true);
     }
 
     const handleBlueWinButton = () => {
         blueTeam.forEach(element => {
-            element.wins++;
+            axios.get(`http://localhost:5000/win/${element.id}`)
+            .then(res => {
+                element.wins++;
+            })
         });
         redTeam.forEach(element => {
-            element.loses++;
+            axios.get(`http://localhost:5000/lose/${element.id}`)
+            .then(res => {
+                element.loses++;
+            })
         });
-        setAllPlayers([...players]);
+        axios.get('http://localhost:5000/players')
+        .then(res => {
+            const data = res.data;
+            setAllPlayers(data);
+        })
         setTracked(true);
     }
 

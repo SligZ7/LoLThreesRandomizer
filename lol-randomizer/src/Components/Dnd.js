@@ -105,7 +105,7 @@ const Dnd = ({ players, setPlayers, handleRandomize }) => {
                   marginLeft: '2.5rem',
                 }}>Available</p>
                 {players.items.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
+                  <Draggable key={item.id} draggableId={`${item.id}`} index={index}>
                     {(provided, snapshot) => (
                       <div
                         ref={provided.innerRef}
@@ -140,7 +140,7 @@ const Dnd = ({ players, setPlayers, handleRandomize }) => {
                   marginLeft: '2.5rem',
                 }}>Selected</p>
                 {players.selected.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
+                  <Draggable key={item.id} draggableId={`${item.id}`}index={index}>
                     {(provided, snapshot) => (
                       <div
                         ref={provided.innerRef}
