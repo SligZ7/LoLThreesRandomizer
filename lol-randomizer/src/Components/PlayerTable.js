@@ -2,9 +2,11 @@ import React from 'react';
 import { Table } from 'react-bootstrap';
 import PropTypes from 'prop-types'
 
-function PlayerTable({ players }) {
+function PlayerTable({ allPlayers }) {
+    allPlayers.sort((a, b) => b.wins - a.wins);
+
     return (
-        <Table striped bordered hover variant="light">
+        <Table striped bordered className="text-white">
             <thead>
                 <tr>
                     <th>#</th>
@@ -15,7 +17,7 @@ function PlayerTable({ players }) {
                 </tr>
             </thead>
             <tbody>
-                {players.map((player, index) => {
+                {allPlayers.map((player, index) => {
                     const winrate = player.wins / (player.wins + player.loses);
                     return (
                         <tr key={`${player}-${index}`}>
@@ -33,7 +35,7 @@ function PlayerTable({ players }) {
 }
 
 PlayerTable.propTypes = {
-    players: PropTypes.array.isRequired,
+    allPlayers: PropTypes.array.isRequired,
 }
 
 export default PlayerTable
