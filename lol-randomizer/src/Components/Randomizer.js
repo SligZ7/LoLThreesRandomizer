@@ -58,7 +58,7 @@ const Randomizer = () => {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '5rem' }}>
                 <DnD players={players} setPlayers={setPlayers} handleRandomize={handleRandomize} />
                 {redTeam.length > 0 && blueTeam.length > 0 && (<div style={{ marginRight: '5rem', marginTop: '6rem' }}>
-                    <Teams redTeam={redTeam} blueTeam={blueTeam} players={players} setAllPlayers={setAllPlayers} handleRandomize={handleRandomize} />
+                    <Teams redTeam={redTeam} blueTeam={blueTeam} players={allPlayers} setAllPlayers={setAllPlayers} handleRandomize={handleRandomize} />
                 </div>)}
             </div>
             <PlayerTable allPlayers={allPlayers} />

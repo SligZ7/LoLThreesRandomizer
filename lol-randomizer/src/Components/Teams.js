@@ -4,7 +4,7 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import { Button } from 'react-bootstrap';
 
-const Teams = ({ redTeam, blueTeam, setAllPlayers, handleRandomize }) => {
+const Teams = ({ redTeam, blueTeam, players, setAllPlayers, handleRandomize }) => {
     const [tracked, setTracked] = useState(false);
 
     const handlePlayAgain = () => {
@@ -50,7 +50,8 @@ const Teams = ({ redTeam, blueTeam, setAllPlayers, handleRandomize }) => {
         blueTeam.forEach(element => {
             element.loses++;
         });
-        setAllPlayers([...redTeam, ...blueTeam]);
+        console.log(players);
+        setAllPlayers([...players]);
         setTracked(true);
     }
 
@@ -61,7 +62,7 @@ const Teams = ({ redTeam, blueTeam, setAllPlayers, handleRandomize }) => {
         redTeam.forEach(element => {
             element.loses++;
         });
-        setAllPlayers([...redTeam, ...blueTeam]);
+        setAllPlayers([...players]);
         setTracked(true);
     }
 
