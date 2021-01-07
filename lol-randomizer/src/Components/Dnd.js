@@ -126,7 +126,7 @@ const Dnd = ({ players, setPlayers, handleRandomize }) => {
             )}
           </Droppable>
         </div>
-        <div style={{ marginRight: '5rem' }}>
+        <div >
           <Droppable droppableId="droppable2">
             {(provided, snapshot) => (
               <div
