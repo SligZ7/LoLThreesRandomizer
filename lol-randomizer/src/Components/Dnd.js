@@ -42,7 +42,8 @@ const Dnd = ({ players, setPlayers, handleRandomize }) => {
 
   useEffect(() => {
     handleRandomize();
-  }, [players, handleRandomize])
+  // eslint-disable-next-line
+  }, [players])
   /**
  * A semi-generic way to handle multiple lists. Matches
  * the IDs of the droppable container to the names of the
