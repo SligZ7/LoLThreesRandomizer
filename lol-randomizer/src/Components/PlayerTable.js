@@ -60,30 +60,43 @@ function PlayerTable({ allPlayers }) {
                         <tr >
                             <th></th>
                             <th></th>
+                            <th></th>
                             <th>{statsPlayer}</th>
+                            <th></th>
+                            <th></th>
                             <th></th>
                             <th></th>
                         </tr>
                         <tr >
                             <th>#</th>
                             <th>Player</th>
-                            <th>Wins</th>
-                            <th>Loses</th>
-                            <th>W/R %</th>
+                            <th>Wins with</th>
+                            <th>Loses with</th>
+                            <th>Team WR %</th>
+                            <th>Wins vs.</th>
+                            <th>Loses vs.</th>
+                            <th>Enemy WR %</th>
                         </tr>
                     </thead>
                     <tbody>
                         {stats.map((stat, index) => {
-                            const winrate = stat.wins / (stat.wins + stat.loses);
+                            const teamWinrate = stat.teamWins / (stat.teamWins + stat.teamLoses);
+                            const enemyWinrate = stat.enemyWins / (stat.enemyWins + stat.enemyLoses);
                             return (
                                 <tr key={`${stat.player}`}>
                                     <td>{index + 1}</td>
                                     <td>{stat.player}</td>
-                                    <td>{stat.wins}</td>
-                                    <td>{stat.loses}</td>
+                                    <td>{stat.teamWins}</td>
+                                    <td>{stat.teamLoses}</td>
                                     <td style={{
-                                        color: Math.round(winrate * 100) > 50 ? 'green' : (stat.wins > 0 || stat.loses > 0) && Math.round(winrate * 100) <= 49 ? 'red' : 'black'
-                                    }}>{winrate ? Math.round(winrate * 100) : 0}%</td>
+                                        color: Math.round(teamWinrate * 100) > 50 ? 'green' : (stat.teamWins > 0 || stat.teamLoses > 0) && Math.round(teamWinrate * 100) <= 49 ? 'red' : 'black'
+                                    }}>{teamWinrate ? Math.round(teamWinrate * 100) : 0}%</td>
+                                    <td>{stat.enemyWins}</td>
+                                    <td>{stat.enemyLoses}</td>
+                                    <td style={{
+                                        color: Math.round(enemyWinrate * 100) > 50 ? 'green' : (stat.enemyWins > 0 || stat.enemyWins > 0) && Math.round(enemyWinrate * 100) <= 49 ? 'red' : 'black'
+                                    }}>{enemyWinrate ? Math.round(enemyWinrate * 100) : 0}%</td>
+
                                 </tr>
                             )
                         })}

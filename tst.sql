@@ -40,3 +40,5 @@ select * from games where winners like "%Sachin-1%"
 select id, name from players where id != 1;
 
 select * from (select * from games where winners like "%Sachin-1%") as sub where winners like "%Noel-2%";
+
+select * from (select * from games where losers like "%Sachin-1%") as sub where winners like "%Noel-2%";
