@@ -16,9 +16,23 @@ losers VARCHAR(250) NOT NULL,
 PRIMARY KEY ( id )
 );
 
-INSERT INTO games (id, game_size, winning_side, winners, losers) VALUES (1, 6, "red", "Sachin-1,Parth-3,Noel-2", "Jonah-5,Mark-4,Muhammed-7");
-INSERT INTO games (id, game_size, winning_side, winners, losers) VALUES (2, 6, "red", "Sachin-1,Parth-3,Zack-10", "Jonah-5,Mark-4,Muhammed-7");
-INSERT INTO games (id, game_size, winning_side, winners, losers) VALUES (2, 6, "red", "Mark-4,Parth-3,Zack-10", "Noel-2,Sachin-1,Muhammed-7");
+Sachin-1
+Noel-2
+Parth-3
+Mark-4
+Jonah-5
+Jiali - 6
+Muhammed-7
+Zach-8
+Kyle-9
+Zack-10
+
+INSERT INTO games (game_size, winning_side, winners, losers) VALUES ( 3, "blue", "Sachin-1,Parth-3,Jonah-5", "Noel-2,Mark-4,Muhammed-7");
+INSERT INTO games (game_size, winning_side, winners, losers) VALUES (3, "blue", "Sachin-1,Noel-2,Jonah-5", "Parth-3,Mark-4,Muhammed-7");
+INSERT INTO games (game_size, winning_side, winners, losers) VALUES (3, "red", "Muhammed-7,Parth-3,Zack-10", "Sachin-1,Mark-4,Jonah-5");
+INSERT INTO games (game_size, winning_side, winners, losers) VALUES (3, "blue", "Sachin-1,Parth-3,Mark-4", "Jonah-5,Muhammed-7,Zack-10");
+INSERT INTO games (game_size, winning_side, winners, losers) VALUES (3, "blue", "Sachin-1,Parth-3,Zack-10", "Noel-2,Jonah-5,Muhammed-7");
+
 
 select * from games where winners like "%Noel-2%"
 select * from games where winners like "%Sachin-1%"
