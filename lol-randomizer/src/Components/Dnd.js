@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 /**
  * Moves an item from one list to another list.
@@ -65,8 +65,10 @@ const Dnd = ({ available, selected, setAvailable, setSelected }) => {
 
         setAvailable(result.available);
         setSelected(result.selected);
-        // localStorage.setItem('selected', result.selected);
-        // localStorage.setItem('available', result.selected);
+        localStorage.setItem('selected', JSON.stringify(result.selected));
+        localStorage.setItem('available',  JSON.stringify(result.available));
+       
+       
       }
     }
   }

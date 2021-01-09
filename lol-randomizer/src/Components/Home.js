@@ -14,20 +14,17 @@ const Home = () => {
     const [forceRoles, setForceRoles] = useState(false);
 
     useEffect(() => {
-        // if (localStorage.getItem('selected')) {
-        //     console.log('got storage');
-        //     setAvailable(localStorage.getItem('available') || []);
-        //     setSelected(localStorage.getItem('selected') || []);
-        // } else {
-        axios.get('http://localhost:5000/players')
-            .then(res => {
-                const data = res.data;
-                data.sort((a, b) => b.wins - a.wins || a.loses - b.loses);
-                setAvailable(data);
-                localStorage.setItem('available', data);
-            })
-        // }
-
+        if (localStorage.getItem('selected') || localStorage.getItem('available')) {
+            setAvailable(JSON.parse(localStorage.getItem('available') || []));
+            setSelected(JSON.parse(localStorage.getItem('selected') || []));
+        } else {
+            axios.get('http://localhost:5000/players')
+                .then(res => {
+                    const data = res.data;
+                    data.sort((a, b) => b.wins - a.wins || a.loses - b.loses);
+                    setAvailable(data);
+                })
+        }
     }, [])
 
     const handleRandomize = () => {
