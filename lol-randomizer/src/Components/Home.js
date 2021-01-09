@@ -73,7 +73,7 @@ const Home = () => {
 
     return (
         <div>
-            <div style={{ backgroundColor: '#333333', padding: '5rem 15rem 0rem 15rem' }}>
+            <div style={{ backgroundColor: '#333333', padding: '5rem 20rem 5rem 20rem' }}>
                 <div style={{ display: "flex", justifyContent: "space-evenly", alignItems: "start" }}>
                     <DnD handleRandomize={handleRandomize} available={available} selected={selected} setAvailable={setAvailable} setSelected={setSelected} />
                     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', width: '40rem' }}>
