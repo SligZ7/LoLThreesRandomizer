@@ -1,30 +1,37 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import Teams from "./Teams";
-import PlayerTable from "./PlayerTable";
 import DnD from "./Dnd";
-import axios from 'axios';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import axios from 'axios';
 
-const Randomizer = () => {
-    const [allPlayers, setAllPlayers] = useState([]);
+const Home = () => {
     const [blueTeam, setBlueTeam] = useState([]);
     const [redTeam, setRedTeam] = useState([]);
-    const [players, setPlayers] = useState({ items: [], selected: [] });
+    const [available, setAvailable] = useState([]);
+    const [selected, setSelected] = useState([]);
     const [forceRoles, setForceRoles] = useState(false);
+
     useEffect(() => {
+        // if (localStorage.getItem('selected')) {
+        //     console.log('got storage');
+        //     setAvailable(localStorage.getItem('available') || []);
+        //     setSelected(localStorage.getItem('selected') || []);
+        // } else {
         axios.get('http://localhost:5000/players')
             .then(res => {
                 const data = res.data;
                 data.sort((a, b) => b.wins - a.wins || a.loses - b.loses);
-                setAllPlayers(data);
-                setPlayers({ items: data, selected: [] })
+                setAvailable(data);
+                localStorage.setItem('available', data);
             })
+        // }
+
     }, [])
 
     const handleRandomize = () => {
-        const len = players.selected.length;
+        const len = selected.length;
         if (len < 6 || len % 2 !== 0) {
             return;
         }
@@ -42,7 +49,7 @@ const Randomizer = () => {
             }
         }
 
-        const playerClone = Array.from(players.selected);
+        const playerClone = Array.from(selected);
         const rTeam = [];
         const bTeam = [];
         while (playerClone.length > 0) {
@@ -68,26 +75,27 @@ const Randomizer = () => {
     };
 
     return (
-        <div style={{ backgroundColor: '#333333', padding: '5rem 15rem 0rem 15rem' }}>
-            <div style={{ display: "flex", justifyContent: "space-evenly", alignItems: "start" }}>
-                <DnD players={players} setPlayers={setPlayers} handleRandomize={handleRandomize} />
-                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', width: '40rem' }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', paddingBottom: '3rem' }}>
-                        <FormControlLabel
-                            control={<Switch checked={forceRoles} onChange={handleRolesToggle} name="roles" inputProps={{ 'aria-label': 'checkbox with default color' }} />}
-                            label="Force roles"
-                        />
-                        <Button type="button" variant="secondary" onClick={handleRandomize} style={{ width: '10rem' }} disabled={players.selected.length < 6 || players.selected.length % 2 !== 0}>
-                            Randomize
+        <div>
+            <div style={{ backgroundColor: '#333333', padding: '5rem 15rem 0rem 15rem' }}>
+                <div style={{ display: "flex", justifyContent: "space-evenly", alignItems: "start" }}>
+                    <DnD handleRandomize={handleRandomize} available={available} selected={selected} setAvailable={setAvailable} setSelected={setSelected} />
+                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', width: '40rem' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', paddingBottom: '3rem' }}>
+                            <FormControlLabel
+                                control={<Switch checked={forceRoles} onChange={handleRolesToggle} name="roles" inputProps={{ 'aria-label': 'checkbox with default color' }} />}
+                                label="Force roles"
+                            />
+                            <Button type="button" variant="secondary" onClick={handleRandomize} style={{ width: '10rem' }} disabled={selected.length < 6 || selected.length % 2 !== 0}>
+                                Randomize
                  </Button>
+                        </div>
+                        {redTeam.length > 0 && blueTeam.length > 0 &&
+                            <Teams redTeam={redTeam} blueTeam={blueTeam} handleRandomize={handleRandomize} />}
                     </div>
-                    {redTeam.length > 0 && blueTeam.length > 0 &&
-                        <Teams redTeam={redTeam} blueTeam={blueTeam} players={allPlayers} setAllPlayers={setAllPlayers} handleRandomize={handleRandomize} />}
                 </div>
-                <PlayerTable allPlayers={allPlayers} />
             </div>
         </div>
     );
 }
 
-export default Randomizer;
+export default Home;

@@ -40,26 +40,7 @@ const getListStyle = isDraggingOver => ({
   borderRadius: '.5rem'
 });
 
-const Dnd = ({ players, setPlayers, handleRandomize }) => {
-
-  useEffect(() => {
-    handleRandomize();
-    // eslint-disable-next-line
-  }, [players])
-  /**
- * A semi-generic way to handle multiple lists. Matches
- * the IDs of the droppable container to the names of the
- * source arrays stored in the state.
- */
-  const id2List = {
-    droppable: 'items',
-    droppable2: 'selected'
-  };
-
-  const getList = (id) => {
-    const list = players[id2List[id]]
-    return list;
-  };
+const Dnd = ({ available, selected, setAvailable, setSelected }) => {
 
   const onDragEnd = (result) => {
 
@@ -72,8 +53,8 @@ const Dnd = ({ players, setPlayers, handleRandomize }) => {
     if (source.droppableId === destination.droppableId) {
       return;
     } else {
-      const sourceList = getList(source.droppableId);
-      const destList = getList(destination.droppableId);
+      const sourceList = source.droppableId === 'available' ? available : selected;
+      const destList = destination.droppableId === 'available' ? available : selected;
       if (sourceList && destList) {
         const result = move(
           sourceList,
@@ -82,10 +63,10 @@ const Dnd = ({ players, setPlayers, handleRandomize }) => {
           destination
         );
 
-        setPlayers({
-          items: result.droppable,
-          selected: result.droppable2
-        });
+        setAvailable(result.available);
+        setSelected(result.selected);
+        // localStorage.setItem('selected', result.selected);
+        // localStorage.setItem('available', result.selected);
       }
     }
   }
@@ -94,7 +75,7 @@ const Dnd = ({ players, setPlayers, handleRandomize }) => {
     <DragDropContext onDragEnd={onDragEnd}>
       <div style={{ display: 'flex' }}>
         <div style={{ marginRight: '3rem' }}>
-          <Droppable droppableId="droppable">
+          <Droppable droppableId="available">
             {(provided, snapshot) => (
               <div
                 {...provided.droppableProps}
@@ -106,7 +87,7 @@ const Dnd = ({ players, setPlayers, handleRandomize }) => {
                   color: "black",
                   fontWeight: 'bold'
                 }}>Available</p>
-                {players.items.map((item, index) => (
+                {available.map((item, index) => (
                   <Draggable key={item.id} draggableId={`${item.id}`} index={index}>
                     {(provided, snapshot) => (
                       <div
@@ -129,7 +110,7 @@ const Dnd = ({ players, setPlayers, handleRandomize }) => {
           </Droppable>
         </div>
         <div >
-          <Droppable droppableId="droppable2">
+          <Droppable droppableId="selected">
             {(provided, snapshot) => (
               <div
                 {...provided.droppableProps}
@@ -141,7 +122,7 @@ const Dnd = ({ players, setPlayers, handleRandomize }) => {
                   color: "black",
                   fontWeight: 'bold'
                 }}>Selected</p>
-                {players.selected.map((item, index) => (
+                {selected.map((item, index) => (
                   <Draggable key={item.id} draggableId={`${item.id}`} index={index}>
                     {(provided, snapshot) => (
                       <div

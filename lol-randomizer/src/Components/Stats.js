@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table, Button } from 'react-bootstrap';
-import PropTypes from 'prop-types'
 import axios from 'axios';
 
-function PlayerTable({ allPlayers }) {
+function PlayerTable() {
     const [stats, setStats] = useState([]);
     const [statsPlayer, setStatsPlayer] = useState("");
     const [hideTable, setHideTable] = useState(false)
+    const [allPlayers, setAllPlayers] = useState([]);
 
     const handleStats = (id, name) => () => {
         axios.get(`http://localhost:5000/stats/${id}`).then(res => {
@@ -16,6 +16,15 @@ function PlayerTable({ allPlayers }) {
             setHideTable(true);
         });
     };
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/players')
+            .then(res => {
+                const data = res.data;
+                data.sort((a, b) => b.wins - a.wins || a.loses - b.loses);
+                setAllPlayers(data);
+            })
+    }, [])
 
     const handleShowTable = () => {
         setHideTable(false);
@@ -105,10 +114,6 @@ function PlayerTable({ allPlayers }) {
             </div>)}
         </div>
     )
-}
-
-PlayerTable.propTypes = {
-    allPlayers: PropTypes.array.isRequired,
 }
 
 export default PlayerTable

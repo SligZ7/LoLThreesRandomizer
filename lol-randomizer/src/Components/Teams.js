@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Card from 'react-bootstrap/Card';
-import { Button } from 'react-bootstrap';
+import { Button, Card, Col, Row } from 'react-bootstrap';
 import axios from 'axios';
 
-const Teams = ({ redTeam, blueTeam, players, setAllPlayers, handleRandomize }) => {
+const Teams = ({ redTeam, blueTeam, handleRandomize }) => {
     const [tracked, setTracked] = useState(false);
 
     const handlePlayAgain = () => {
@@ -68,11 +65,7 @@ const Teams = ({ redTeam, blueTeam, players, setAllPlayers, handleRandomize }) =
         const winnerIds = winnerIdsArray.join(',');
 
         axios.post('http://localhost:5000/games',
-            { game_size: redTeam.length, winners, losers, winning_side: 'red', loserIds, winnerIds }).then((res) => {
-                const data = res.data;
-                data.sort((a, b) => b.wins - a.wins || a.loses - b.loses);
-                setAllPlayers(data);
-            });
+            { game_size: redTeam.length, winners, losers, winning_side: 'red', loserIds, winnerIds });
         setTracked(true);
     }
 
@@ -100,11 +93,7 @@ const Teams = ({ redTeam, blueTeam, players, setAllPlayers, handleRandomize }) =
         const winnerIds = winnerIdsArray.join(',');
 
         axios.post('http://localhost:5000/games',
-            { game_size: redTeam.length, winners, losers, winning_side: 'blue', loserIds, winnerIds }).then((res) => {
-                const data = res.data;
-                data.sort((a, b) => b.wins - a.wins || a.loses - b.loses);
-                setAllPlayers(data);
-            });
+            { game_size: redTeam.length, winners, losers, winning_side: 'blue', loserIds, winnerIds });
         setTracked(true);
     }
 
