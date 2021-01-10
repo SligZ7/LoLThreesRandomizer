@@ -14,6 +14,11 @@ const Home = () => {
     const [forceRoles, setForceRoles] = useState(false);
 
     useEffect(() => {
+        if(localStorage.getItem('redTeam') || localStorage.getItem('blueTeam')){
+            setBlueTeam(JSON.parse(localStorage.getItem('redTeam') || []));
+            setRedTeam(JSON.parse(localStorage.getItem('blueTeam') || []));
+        }
+
         if (localStorage.getItem('selected') || localStorage.getItem('available')) {
             setAvailable(JSON.parse(localStorage.getItem('available') || []));
             setSelected(JSON.parse(localStorage.getItem('selected') || []));
@@ -64,6 +69,8 @@ const Home = () => {
         }
         setBlueTeam(rTeam);
         setRedTeam(bTeam);
+        localStorage.setItem('redTeam', JSON.stringify(rTeam));
+        localStorage.setItem('blueTeam',  JSON.stringify(bTeam));
     }
 
 
