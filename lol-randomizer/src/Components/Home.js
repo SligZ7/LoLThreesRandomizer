@@ -14,7 +14,7 @@ const Home = () => {
     const [forceRoles, setForceRoles] = useState(false);
 
     useEffect(() => {
-        if(localStorage.getItem('redTeam') || localStorage.getItem('blueTeam')){
+        if (localStorage.getItem('redTeam') || localStorage.getItem('blueTeam')) {
             setBlueTeam(JSON.parse(localStorage.getItem('redTeam') || []));
             setRedTeam(JSON.parse(localStorage.getItem('blueTeam') || []));
         }
@@ -40,15 +40,10 @@ const Home = () => {
 
         let blueRoles = ["Choose your destiny", "Choose your destiny", "Choose your destiny", "Choose your destiny", "Choose your destiny"];
         let redRoles = ["Choose your destiny", "Choose your destiny", "Choose your destiny", "Choose your destiny", "Choose your destiny"];
+
         if (forceRoles) {
-            blueRoles = ["Jungle", "Lane", "Lane"];
-            redRoles = ["Jungle", "Lane", "Lane"];
-            let remaining = (len % 6) / 2;
-            while (remaining > 0) {
-                blueRoles.push("Lane");
-                redRoles.push("Lane");
-                remaining--;
-            }
+            blueRoles = ["Jungle", "Lane", "Lane", "Lane", "Lane"];
+            redRoles = ["Jungle", "Lane", "Lane", "Lane", "Lane"];
         }
 
         const playerClone = Array.from(selected);
@@ -57,12 +52,11 @@ const Home = () => {
         while (playerClone.length > 0) {
             const [person] = playerClone.splice(Math.floor(Math.random() * playerClone.length), 1);
             if (playerClone.length % 2 === 0) {
-                const [role] = redRoles.splice(Math.floor(Math.random() * redRoles.length), 1);
+                const [role] = redRoles.splice(Math.floor(Math.random() * playerClone.length), 1);
                 person.role = role;
                 rTeam.push(person);
-
             } else {
-                const [role] = blueRoles.splice(Math.floor(Math.random() * blueRoles.length), 1);
+                const [role] = blueRoles.splice(Math.floor(Math.random() * playerClone.length), 1);
                 person.role = role;
                 bTeam.push(person);
             }
@@ -70,7 +64,7 @@ const Home = () => {
         setBlueTeam(rTeam);
         setRedTeam(bTeam);
         localStorage.setItem('redTeam', JSON.stringify(rTeam));
-        localStorage.setItem('blueTeam',  JSON.stringify(bTeam));
+        localStorage.setItem('blueTeam', JSON.stringify(bTeam));
     }
 
 
