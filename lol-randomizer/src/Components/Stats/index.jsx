@@ -19,7 +19,7 @@ const PlayerTable = () => {
             let arr = await Promise.all(data.map(async (player) => await axios.get(`http://localhost:5000/stats/${player.id}`)));
             arr = arr.map((res) => res.data);
 
-            data.map((player, index) => arr.map((stat, i) => {
+            data.map((player, index) => arr.forEach((stat, i) => {
                 if (i === index) stat.splice(i, 0, "NA")
             }));
             setStats(arr);
@@ -35,29 +35,29 @@ const PlayerTable = () => {
             <div>
                 <Table striped bordered className="text-white" small="true" style={{ width: '65rem', fontWeight: 'bold' }}>
                     {<tr>
-                        <td>Games against</td>
-                        {allPlayers.map((player, index) => <td>{player.name}</td>)}
+                        <td style={{ backgroundColor: 'RoyalBlue' }}>Games against</td>
+                        {allPlayers.map((player, index) => <td style={{ backgroundColor: 'DodgerBlue' }}>{player.name}</td>)}
                     </tr>}
                     {allPlayers.map((player, index) =>
                         <tr>
-                            <td style={{ color: 'royalblue' }}>{player.name}</td>
+                            <td style={{ backgroundColor: 'DodgerBlue' }}>{player.name}</td>
                             {stats[index].map((stat, i) =>
-                                <td style={{ color: stat.enemyWins / (stat.enemyWins + stat.enemyLoses) > .5 ? 'green' : stat.enemyWins / (stat.enemyWins + stat.enemyLoses) < .5 ? 'red' : stat.enemyWins / (stat.enemyWins + stat.enemyLoses) === .5 ? 'yellow' : 'white' }}>{stat.player ? `${stat.enemyWins}-${stat.enemyLoses}` : "NA"}</td>
+                                <td style={{ backgroundColor: stat.enemyWins / (stat.enemyWins + stat.enemyLoses) > .5 ? 'SeaGreen' : stat.enemyWins / (stat.enemyWins + stat.enemyLoses) < .5 ? 'indianred' : stat.enemyWins / (stat.enemyWins + stat.enemyLoses) === .5 ? 'SandyBrown' : '' }}>{stat.player ? `${stat.enemyWins}-${stat.enemyLoses}` : "NA"}</td>
                             )}
                         </tr>)}
                 </Table>
             </div>
             <div>
-                <Table striped bordered className="text-white" small="true" style={{  width: '65rem', fontWeight: 'bold' }}>
+                <Table striped bordered className="text-white" small="true" style={{ width: '65rem', fontWeight: 'bold' }}>
                     {<tr>
-                        <td>Games With</td>
-                        {allPlayers.map((player, index) => <td>{player.name}</td>)}
+                        <td  style={{ backgroundColor: 'RoyalBlue' }}>Games With</td>
+                        {allPlayers.map((player, index) => <td style={{ backgroundColor: 'DodgerBlue' }}>{player.name}</td>)}
                     </tr>}
                     {allPlayers.map((player, index) =>
                         <tr>
-                            <td style={{ color: 'royalblue' }}>{player.name}</td>
+                            <td style={{ backgroundColor: 'DodgerBlue' }}>{player.name}</td>
                             {stats[index].map((stat, i) =>
-                                <td style={{ color: stat.teamWins / (stat.teamWins + stat.teamLoses) > .5 ? 'green' : stat.teamWins / (stat.teamWins + stat.teamLoses) < .5 ? 'red' : stat.teamWins / (stat.teamWins + stat.teamLoses) === .5 ? 'yellow' : 'white' }}>{stat.player ? `${stat.teamWins}-${stat.teamLoses}` : "NA"}</td>
+                                <td style={{ backgroundColor: stat.teamWins / (stat.teamWins + stat.teamLoses) > .5 ? 'SeaGreen' : stat.teamWins / (stat.teamWins + stat.teamLoses) < .5 ? 'indianred' : stat.teamWins / (stat.teamWins + stat.teamLoses) === .5 ? 'SandyBrown' : '' }}>{stat.player ? `${stat.teamWins}-${stat.teamLoses}` : "NA"}</td>
                             )}
                         </tr>)}
                 </Table>

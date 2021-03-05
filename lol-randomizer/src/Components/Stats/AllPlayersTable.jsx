@@ -22,7 +22,7 @@ export default function AllPlayersTable({allPlayers, handleStats}) {
                         <td>{player.wins}</td>
                         <td>{player.loses}</td>
                         <td style={{
-                            color: player.winrate > 50 ? 'green' : (player.wins > 0 || player.loses > 0) && player.winrate <= 49 ? 'red' : 'white'
+                            backgroundColor: player.winrate > 50 ? 'SeaGreen' : (player.wins > 0 || player.loses > 0) && player.winrate <= 49 ? 'indianred' : ''
                         }}>{player.winrate ? player.winrate : 0}%</td>
                     </tr>
                 )
