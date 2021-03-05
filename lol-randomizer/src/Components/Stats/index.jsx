@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
 import AllPlayersTable from './AllPlayersTable';
-import AllPlayersChart from './AllPlayersChart';
-import PlayerStats from './PlayerStats';
-import PlayerCharts from './PlayerCharts';
 import { Table } from 'react-bootstrap';
 
 const PlayerTable = () => {
