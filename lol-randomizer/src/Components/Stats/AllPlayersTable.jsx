@@ -6,7 +6,6 @@ export default function AllPlayersTable({allPlayers, handleStats}) {
         <Table striped bordered className="text-white" small="true" style={{ width: '65rem', fontWeight: 'bold' }}>
         <thead>
             <tr >
-                <th>#</th>
                 <th>Player</th>
                 <th>Wins</th>
                 <th>Loses</th>
@@ -17,7 +16,6 @@ export default function AllPlayersTable({allPlayers, handleStats}) {
             {allPlayers.map((player, index) => {
                 return (
                     <tr key={`${player.id}-${index}`}>
-                        <td>{index + 1}</td>
                         <td>{player.name}</td>
                         <td>{player.wins}</td>
                         <td>{player.loses}</td>
