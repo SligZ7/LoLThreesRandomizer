@@ -14,6 +14,8 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
     useEffect(() => {
         axios.get('http://localhost:5000/players')
             .then(({ data }) => {
+
+                // If we already have selected or available get them from local storage, otherwise use the fetched data
                 if (localStorage.getItem('selected') || localStorage.getItem('available')) {
                     setAvailable(JSON.parse(localStorage.getItem('available') || []));
                     setSelected(JSON.parse(localStorage.getItem('selected') || []));
@@ -23,16 +25,27 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
                     setAvailable(newData);
                 };
 
+                //  Fetch latest for redTeam, blueTeam even if we have it in storage
                 if (localStorage.getItem('redTeam') || localStorage.getItem('blueTeam')) {
                     const redLocal = JSON.parse(localStorage.getItem('redTeam'));
                     const blueLocal = JSON.parse(localStorage.getItem('blueTeam'));
                     const redLatest = data.filter((d) => redLocal.some(red => red.id === d.id));
                     const blueLatest = data.filter((d) => blueLocal.some(blue => blue.id === d.id));
+
                     setBlueTeam(blueLatest);
                     setRedTeam(redLatest);
                 }
-            })
+            });
     }, [])
+
+    useEffect(() => {
+        // Keep roles updated incase of page swap, refresh etc
+        redTeam.map(async red => await axios.post('http://localhost:5000/setRole', { id: red.id, role: red.role }));
+        blueTeam.map(async blue => await axios.post('http://localhost:5000/setRole', { id: blue.id, role: blue.role }));
+    }, [redTeam, blueTeam])
+
+
+
 
     const handleRandomize = () => {
         const len = selected.length;
@@ -40,8 +53,8 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
             return;
         }
 
-        let blueRoles = ["Any", "Any", "Any", "Any", "Any"];
-        let redRoles = ["Any", "Any", "Any", "Any", "Any"];
+        let blueRoles = ["Fill", "Fill", "Fill", "Fill", "Fill"];
+        let redRoles = ["Fill", "Fill", "Fill", "Fill", "Fill"];
 
         if (forceRoles) {
             blueRoles = ["Jungle", "Lane", "Lane", "Lane", "Lane"];
@@ -84,16 +97,20 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
         const losersArray = [];
         const loserIdsArray = [];
         const winnerIdsArray = [];
+        const redTeamArray = [];
+        const blueTeamArray = [];
 
         redTeam.forEach(element => {
             winnersArray.push(`${element.name}-${element.id}`);
             winnerIdsArray.push(element.id);
+            redTeamArray.push(`${element.role}-${element.name}`);
             element.wins++;
         });
 
         blueTeam.forEach(element => {
             losersArray.push(`${element.name}-${element.id}`);
             loserIdsArray.push(element.id);
+            blueTeamArray.push(`${element.role}-${element.name}`);
             element.loses++;
         });
 
@@ -101,9 +118,11 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
         const winners = winnersArray.join(',');
         const loserIds = loserIdsArray.join(',');
         const winnerIds = winnerIdsArray.join(',');
+        const red = redTeamArray.join(',');
+        const blue = blueTeamArray.join(',');
 
         axios.post('http://localhost:5000/games',
-            { game_size: redTeam.length, winners, losers, winning_side: 'red', loserIds, winnerIds });
+            { game_size: redTeam.length, winners, losers, winning_side: 'red', loserIds, winnerIds, blue, red });
         setTracked(true);
     }
 
@@ -112,16 +131,20 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
         const losersArray = [];
         const loserIdsArray = [];
         const winnerIdsArray = [];
+        const redTeamArray = [];
+        const blueTeamArray = [];
 
         blueTeam.forEach(element => {
             winnersArray.push(`${element.name}-${element.id}`);
             winnerIdsArray.push(element.id);
+            blueTeamArray.push(`${element.role}-${element.name}`);
             element.wins++;
         });
 
         redTeam.forEach(element => {
             losersArray.push(`${element.name}-${element.id}`);
             loserIdsArray.push(element.id);
+            redTeamArray.push(`${element.role}-${element.name}`);
             element.loses++;
         });
 
@@ -129,9 +152,11 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
         const winners = winnersArray.join(',');
         const loserIds = loserIdsArray.join(',');
         const winnerIds = winnerIdsArray.join(',');
+        const red = redTeamArray.join(',');
+        const blue = blueTeamArray.join(',');
 
         axios.post('http://localhost:5000/games',
-            { game_size: redTeam.length, winners, losers, winning_side: 'blue', loserIds, winnerIds });
+            { game_size: blueTeam.length, winners, losers, winning_side: 'blue', loserIds, winnerIds, blue, red });
         setTracked(true);
     }
 

@@ -8,7 +8,8 @@ function Header(props) {
             <Navbar.Brand>Randomizer</Navbar.Brand>
             <Nav className="mr-auto">
                 <Link to="/"> <div style={{marginRight: '1rem'}}>Home</div></Link>
-                <Link to="/stats"><div>Stats</div></Link>
+                <Link to="/stats" style={{marginRight: '1rem'}}><div>Stats</div></Link>
+                <Link to="/games"><div>Match History</div></Link>
             </Nav>
             <Form inline>
                 <FormControl type="text" placeholder="Search" className="mr-sm-2" />

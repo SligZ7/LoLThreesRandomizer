@@ -4,9 +4,9 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import fillIcon from './Assets/fill_icon.png';
-import jungleIcon from './Assets/jungle_icon.png';
-import laneIcon from './Assets/lane_icon.png';
+import fillIcon from '../../Assets/fill_icon.png';
+import jungleIcon from '../../Assets/jungle_icon.png';
+import laneIcon from '../../Assets/lane_icon.png';
 
 // TODO: make utils function to get color based on winrate
 const imgStyling = { width: '90px', height: '90px' };

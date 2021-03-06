@@ -19,6 +19,7 @@
     "and": "0.0.3",
     "axios": "^0.21.1",
     "bootstrap": "^4.5.3",
+    "moment": "^2.29.1",
     "react": "^17.0.1",
     "react-beautiful-dnd": "^13.0.0",
     "react-bootstrap": "^1.4.0",
