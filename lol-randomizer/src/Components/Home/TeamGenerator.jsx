@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -9,7 +9,10 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
     const [tracked, setTracked] = useState(false);
     const [blueTeam, setBlueTeam] = useState([]);
     const [redTeam, setRedTeam] = useState([]);
+    const [isAram, setIsAram] = useState(false);
     const [forceRoles, setForceRoles] = useState(false);
+
+    const map = useMemo(() => isAram ? 'Howling Abyss' : 'Summoner\'s Rift', [isAram]);
 
     useEffect(() => {
         axios.get('http://localhost:5000/players')
@@ -44,11 +47,28 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
         blueTeam.map(async blue => await axios.post('http://localhost:5000/setRole', { id: blue.id, role: blue.role }));
     }, [redTeam, blueTeam])
 
-
-
+    const handleRotatePlayers = () => {
+        let playerClone = blueTeam.length ? Array.from([...blueTeam, ...redTeam]) : Array.from(selected);
+        console.log('playerclone', playerClone);
+        playerClone.unshift(playerClone.pop());
+        playerClone[0].role = "Fill";
+        playerClone[1].role = "Fill";
+        playerClone[2].role = "Fill";
+        playerClone[3].role = "Fill";
+        const rTeam = [playerClone[0], playerClone[2]];
+        const bTeam = [playerClone[1], playerClone[3]];
+        setBlueTeam(rTeam);
+        setRedTeam(bTeam);
+        localStorage.setItem('redTeam', JSON.stringify(rTeam));
+        localStorage.setItem('blueTeam', JSON.stringify(bTeam));
+    };
 
     const handleRandomize = () => {
         const len = selected.length;
+        if (len >= 4 && len < 6) {
+            handleRotatePlayers();
+        }
+
         if (len < 6 || len % 2 !== 0) {
             return;
         }
@@ -56,7 +76,7 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
         let blueRoles = ["Fill", "Fill", "Fill", "Fill", "Fill"];
         let redRoles = ["Fill", "Fill", "Fill", "Fill", "Fill"];
 
-        if (forceRoles) {
+        if (forceRoles && !isAram) {
             blueRoles = ["Jungle", "Lane", "Lane", "Lane", "Lane"];
             redRoles = ["Jungle", "Lane", "Lane", "Lane", "Lane"];
         }
@@ -92,6 +112,10 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
         setForceRoles(!forceRoles);
     };
 
+    const handleAramToggle = () => {
+        setIsAram(!isAram);
+    }
+
     const handleRedWinButton = () => {
         const winnersArray = [];
         const losersArray = [];
@@ -104,14 +128,12 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
             winnersArray.push(`${element.name}-${element.id}`);
             winnerIdsArray.push(element.id);
             redTeamArray.push(`${element.role}-${element.name}`);
-            element.wins++;
         });
 
         blueTeam.forEach(element => {
             losersArray.push(`${element.name}-${element.id}`);
             loserIdsArray.push(element.id);
             blueTeamArray.push(`${element.role}-${element.name}`);
-            element.loses++;
         });
 
         const losers = losersArray.join(',');
@@ -122,7 +144,7 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
         const blue = blueTeamArray.join(',');
 
         axios.post('http://localhost:5000/games',
-            { game_size: redTeam.length, winners, losers, winning_side: 'red', loserIds, winnerIds, blue, red });
+            { map, game_size: redTeam.length, winners, losers, winning_side: 'red', loserIds, winnerIds, blue, red });
         setTracked(true);
     }
 
@@ -138,14 +160,12 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
             winnersArray.push(`${element.name}-${element.id}`);
             winnerIdsArray.push(element.id);
             blueTeamArray.push(`${element.role}-${element.name}`);
-            element.wins++;
         });
 
         redTeam.forEach(element => {
             losersArray.push(`${element.name}-${element.id}`);
             loserIdsArray.push(element.id);
             redTeamArray.push(`${element.role}-${element.name}`);
-            element.loses++;
         });
 
         const losers = losersArray.join(',');
@@ -156,7 +176,7 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
         const blue = blueTeamArray.join(',');
 
         axios.post('http://localhost:5000/games',
-            { game_size: blueTeam.length, winners, losers, winning_side: 'blue', loserIds, winnerIds, blue, red });
+            { map, game_size: blueTeam.length, winners, losers, winning_side: 'blue', loserIds, winnerIds, blue, red });
         setTracked(true);
     }
 
@@ -168,9 +188,16 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
                     control={<Switch checked={forceRoles} onChange={handleRolesToggle} name="roles" inputProps={{ 'aria-label': 'checkbox with default color' }} />}
                     label="Force roles"
                 />
-                <Button type="button" variant="primary" onClick={handleRandomize} style={{ width: '10rem' }} disabled={selected.length < 6 || selected.length % 2 !== 0}>
+                <FormControlLabel
+                    control={<Switch checked={isAram} onChange={handleAramToggle} name="roles" inputProps={{ 'aria-label': 'checkbox with default color' }} />}
+                    label="ARAM"
+                />
+                <Button type="button" variant="primary" onClick={handleRandomize} style={{ width: '10rem', marginBottom: '10px' }} disabled={selected.length < 6 || selected.length % 2 !== 0}>
                     Randomize
                 </Button>
+                {isAram && <Button type="button" variant="primary" onClick={handleRotatePlayers} style={{ width: '10rem' }} disabled={selected.length < 4 || selected.length % 2 !== 0 || selected.length >= 6}>
+                    Rotate
+                </Button>}
             </div>
             <div style={{ display: 'flex' }}>
                 <div style={{ marginRight: '10px' }}>

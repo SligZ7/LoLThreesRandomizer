@@ -15,7 +15,7 @@ const imgContainer = { display: 'flex', justifyContent: 'center', alignItems: 'c
 export default function PlayerCard({ player, color }) {
 
     return (
-        <Card style={{ display: 'flex', backgroundColor: '#DCDCDC', marginBottom: '10px', height: '100px' }}>
+        <Card style={{ display: 'flex', backgroundColor: '#DCDCDC', marginBottom: '10px', height: '100px', width: '400px' }}>
             {color === 'blue' ? <div style={{ ...imgContainer, backgroundColor: 'MidnightBlue' }} > {player.role === 'Jungle' ? <img src={jungleIcon} style={imgStyling} /> : player.role === "Lane" ? <img src={laneIcon} style={imgStyling} /> : <img src={fillIcon} style={imgStyling} />} </div> : ''}
             <div style={{ display: 'flex', justifyContent: 'space-between', flexGrow: '1' }}>
                 <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', alignContent: 'space-between', flexGrow: '1' }}>

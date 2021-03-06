@@ -10,7 +10,7 @@ function MatchHistory(props) {
 
     useEffect(() => {
         axios.get('http://localhost:5000/games').then(({ data }) => {
-            setGames(data);
+            setGames(data.reverse());
         });
     }, []);
 
@@ -29,7 +29,12 @@ function MatchHistory(props) {
                 const blue = game.blue.split(',');
                 return (
                     <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '15px', backgroundColor: '#a6a6a6', borderStyle: "solid", borderRadius: '5px', boxShadow: '4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)' }}>
-                        <div style={{ borderBottom: '3px solid white', padding: '5px', fontWeight: 'bold' }}>{moment(game.date).format('MMMM Do, YYYY')}</div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '3px solid white', padding: '5px', fontWeight: 'bold' }}>
+                            <div>
+                                {moment(game.date).format('MMMM Do, YYYY')}
+                            </div>
+                            <div>{game.map}</div>
+                        </div>
                         <div style={{ display: 'flex', padding: '10px' }} >
                             <div style={{ marginRight: '20px' }}>
                                 {blue.map((b) => {
