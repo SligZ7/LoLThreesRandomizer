@@ -12,23 +12,27 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
     const [forceRoles, setForceRoles] = useState(false);
 
     useEffect(() => {
-        if (localStorage.getItem('redTeam') || localStorage.getItem('blueTeam')) {
-            setBlueTeam(JSON.parse(localStorage.getItem('redTeam') || []));
-            setRedTeam(JSON.parse(localStorage.getItem('blueTeam') || []));
-        }
+        axios.get('http://localhost:5000/players')
+            .then(({ data }) => {
+                if (localStorage.getItem('selected') || localStorage.getItem('available')) {
+                    setAvailable(JSON.parse(localStorage.getItem('available') || []));
+                    setSelected(JSON.parse(localStorage.getItem('selected') || []));
+                } else {
+                    const newData = data.slice();
+                    newData.sort((a, b) => b.wins - a.wins || a.loses - b.loses);
+                    setAvailable(newData);
+                };
 
-        if (localStorage.getItem('selected') || localStorage.getItem('available')) {
-            setAvailable(JSON.parse(localStorage.getItem('available') || []));
-            setSelected(JSON.parse(localStorage.getItem('selected') || []));
-        } else {
-            axios.get('http://localhost:5000/players')
-                .then(res => {
-                    const data = res.data;
-                    data.sort((a, b) => b.wins - a.wins || a.loses - b.loses);
-                    setAvailable(data);
-                })
-        }
-    }, [setAvailable, setSelected])
+                if (localStorage.getItem('redTeam') || localStorage.getItem('blueTeam')) {
+                    const redLocal = JSON.parse(localStorage.getItem('redTeam'));
+                    const blueLocal = JSON.parse(localStorage.getItem('blueTeam'));
+                    const redLatest = data.filter((d) => redLocal.some(red => red.id === d.id));
+                    const blueLatest = data.filter((d) => blueLocal.some(blue => blue.id === d.id));
+                    setBlueTeam(blueLatest);
+                    setRedTeam(redLatest);
+                }
+            })
+    }, [])
 
     const handleRandomize = () => {
         const len = selected.length;
@@ -144,7 +148,9 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
                 </Button>
             </div>
             <div style={{ display: 'flex' }}>
-                <TeamTable team={blueTeam} color="blue" />
+                <div style={{ marginRight: '10px' }}>
+                    <TeamTable team={blueTeam} color="blue" />
+                </div>
                 <TeamTable team={redTeam} color="red" />
             </div>
             <div>

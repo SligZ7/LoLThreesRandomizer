@@ -35,12 +35,12 @@ const PlayerTable = () => {
             <div>
                 <Table striped bordered className="text-white" small="true" style={{ width: '65rem', fontWeight: 'bold' }}>
                     {<tr>
-                        <td style={{ backgroundColor: 'RoyalBlue' }}>Games against</td>
-                        {allPlayers.map((player, index) => <td style={{ backgroundColor: 'DodgerBlue' }}>{player.name}</td>)}
+                        <td style={{ backgroundColor: 'DodgerBlue' }}>Games against</td>
+                        {allPlayers.map((player, index) => <td>{player.name}</td>)}
                     </tr>}
                     {allPlayers.map((player, index) =>
                         <tr>
-                            <td style={{ backgroundColor: 'DodgerBlue' }}>{player.name}</td>
+                            <td>{player.name}</td>
                             {stats[index].map((stat, i) =>
                                 <td style={{ backgroundColor: stat.enemyWins / (stat.enemyWins + stat.enemyLoses) > .5 ? 'SeaGreen' : stat.enemyWins / (stat.enemyWins + stat.enemyLoses) < .5 ? 'indianred' : stat.enemyWins / (stat.enemyWins + stat.enemyLoses) === .5 ? 'SandyBrown' : '' }}>{stat.player ? `${stat.enemyWins}-${stat.enemyLoses}` : "NA"}</td>
                             )}
@@ -50,12 +50,12 @@ const PlayerTable = () => {
             <div>
                 <Table striped bordered className="text-white" small="true" style={{ width: '65rem', fontWeight: 'bold' }}>
                     {<tr>
-                        <td  style={{ backgroundColor: 'RoyalBlue' }}>Games With</td>
-                        {allPlayers.map((player, index) => <td style={{ backgroundColor: 'DodgerBlue' }}>{player.name}</td>)}
+                        <td style={{ backgroundColor: 'DodgerBlue' }}>Games With</td>
+                        {allPlayers.map((player, index) => <td>{player.name}</td>)}
                     </tr>}
                     {allPlayers.map((player, index) =>
                         <tr>
-                            <td style={{ backgroundColor: 'DodgerBlue' }}>{player.name}</td>
+                            <td>{player.name}</td>
                             {stats[index].map((stat, i) =>
                                 <td style={{ backgroundColor: stat.teamWins / (stat.teamWins + stat.teamLoses) > .5 ? 'SeaGreen' : stat.teamWins / (stat.teamWins + stat.teamLoses) < .5 ? 'indianred' : stat.teamWins / (stat.teamWins + stat.teamLoses) === .5 ? 'SandyBrown' : '' }}>{stat.player ? `${stat.teamWins}-${stat.teamLoses}` : "NA"}</td>
                             )}
