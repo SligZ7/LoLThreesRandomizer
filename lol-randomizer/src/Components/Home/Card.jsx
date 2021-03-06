@@ -4,34 +4,37 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-
+import fillIcon from './Assets/fill_icon.png';
+import jungleIcon from './Assets/jungle_icon.png';
+import laneIcon from './Assets/lane_icon.png';
 
 // TODO: make utils function to get color based on winrate
+const imgStyling = { width: '90px', height: '90px' };
 
+const imgContainer = { display: 'flex', justifyContent: 'center', alignItems: 'center' };
 export default function PlayerCard({ player, color }) {
 
     return (
-        <Card style={{ display: 'flex', backgroundColor: 'LightSteelBlue', marginBottom: '10px' }}>
-            {color === 'blue' ? <div style={{ backgroundColor: 'royalblue', width: '20px' }} /> : ''}
+        <Card style={{ display: 'flex', backgroundColor: '#DCDCDC', marginBottom: '10px', height: '100px' }}>
+            {color === 'blue' ? <div style={{ ...imgContainer, backgroundColor: 'MidnightBlue' }} > {player.role === 'Jungle' ? <img src={jungleIcon} style={imgStyling} /> : player.role === "Lane" ? <img src={laneIcon} style={imgStyling} /> : <img src={fillIcon} style={imgStyling} />} </div> : ''}
             <div style={{ display: 'flex', justifyContent: 'space-between', flexGrow: '1' }}>
-                <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', flexGrow: '1' }}>
-                    <Typography component="h5" variant="h5" style={{ marginBottom: '10px' }}>
+                <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', alignContent: 'space-between', flexGrow: '1' }}>
+                    <Typography variant="h4" style={{}}>
                         {player.name}
                     </Typography>
-                    <Typography component="h6" color="textSecondary">
-                        {player.role === 'jungler' ? 'Any' : player.role}
-                    </Typography>
-                </CardContent>
-                <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', alignContent: 'space-between', flexGrow: '1' }}>
-                    <Typography component="h5" color="textSecondary" style={{ marginBottom: '20px' }}>
-                        {player.winrate}%
-                </Typography>
-                    <Typography variant="body2">
+                    <Typography variant="h6">
                         {`${player.wins} - ${player.loses}`}
                     </Typography>
                 </CardContent>
+                <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'space-between', flexGrow: '1' }}>
+                    <Typography variant="h4" color="textSecondary" style={{}}>
+                        {player.winrate}%
+                    </Typography>
+                </CardContent>
             </div>
-            {color === 'red' ? <div style={{ backgroundColor: 'indianred', width: '20px'}} /> : ''}
-        </Card>
+            {color === 'red' ? <div style={{ ...imgContainer, backgroundColor: '#800000' }} >
+                {player.role === 'Jungle' ? <img src={jungleIcon} style={imgStyling} /> : player.role === "Lane" ? <img src={laneIcon} style={imgStyling} /> : <img src={fillIcon} style={imgStyling} />}</div> : ''
+            }
+        </Card >
     );
 }

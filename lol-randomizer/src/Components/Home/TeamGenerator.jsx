@@ -143,7 +143,7 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
                     control={<Switch checked={forceRoles} onChange={handleRolesToggle} name="roles" inputProps={{ 'aria-label': 'checkbox with default color' }} />}
                     label="Force roles"
                 />
-                <Button type="button" variant="secondary" onClick={handleRandomize} style={{ width: '10rem' }} disabled={selected.length < 6 || selected.length % 2 !== 0}>
+                <Button type="button" variant="primary" onClick={handleRandomize} style={{ width: '10rem' }} disabled={selected.length < 6 || selected.length % 2 !== 0}>
                     Randomize
                 </Button>
             </div>

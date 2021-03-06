@@ -18,14 +18,28 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 
 const grid = 8;
 
-const getItemStyle = (isDragging, draggableStyle) => ({
+const getAvailableItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
   userSelect: "none",
   padding: grid * 2,
   margin: `0 0 ${grid}px 0`,
   color: "black",
   // change background colour if dragging
-  background: isDragging ? "lightgreen" : "grey",
+  background: isDragging ? "DarkSeaGreen" : "grey",
+  borderRadius: '.5rem',
+  fontWeight: 'bold',
+  // styles we need to apply on draggables
+  ...draggableStyle
+});
+
+const getSelectedItemStyle = (isDragging, draggableStyle) => ({
+  // some basic styles to make the items look a bit nicer
+  userSelect: "none",
+  padding: grid * 2,
+  margin: `0 0 ${grid}px 0`,
+  color: "black",
+  // change background colour if dragging
+  background: isDragging ? "grey" : "DarkSeaGreen",
   borderRadius: '.5rem',
   fontWeight: 'bold',
   // styles we need to apply on draggables
@@ -96,7 +110,7 @@ const Dnd = ({ available, selected, setAvailable, setSelected }) => {
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
-                        style={getItemStyle(
+                        style={getAvailableItemStyle(
                           snapshot.isDragging,
                           provided.draggableProps.style
                         )}
@@ -131,7 +145,7 @@ const Dnd = ({ available, selected, setAvailable, setSelected }) => {
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
-                        style={getItemStyle(
+                        style={getSelectedItemStyle(
                           snapshot.isDragging,
                           provided.draggableProps.style
                         )}
