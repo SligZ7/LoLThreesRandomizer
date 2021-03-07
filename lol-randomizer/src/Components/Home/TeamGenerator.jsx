@@ -106,7 +106,7 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
 
         setRedTeam(rTeam);
         setBlueTeam(bTeam);
-        
+
         localStorage.setItem('redTeam', JSON.stringify(rTeam));
         localStorage.setItem('blueTeam', JSON.stringify(bTeam));
     }
@@ -217,26 +217,23 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
             <div style={{ display: 'flex', minHeight: '300px' }}>
                 <div style={{ marginRight: '10px' }}>
                     <TeamTable team={blueTeam} isAram={isAram} color="blue" />
+                    {!tracked && <Button variant="dark" type="button" onClick={handleBlueWinButton} style={{ backgroundColor: '#00008B', marginRight: '2rem' }}>
+                        Blue wins
+                        </Button>}
                 </div>
                 <div>
                     <TeamTable team={redTeam} isAram={isAram} color="red" />
+                    {!tracked && <Button variant="dark" type="button" onClick={handleRedWinButton} style={{ backgroundColor: '#8B0000' }}>
+                        Red wins
+                         </Button>}
                 </div>
             </div>
             <div>
-                {!tracked ? (
-                    <>
-                        <Button variant="dark" type="button" onClick={handleBlueWinButton} style={{ backgroundColor: '#00008B', marginRight: '2rem' }}>
-                            Blue wins
-                        </Button>
-                        <Button variant="dark" type="button" onClick={handleRedWinButton} style={{ backgroundColor: '#8B0000' }}>
-                            Red wins
+                {tracked && (
+                    <Button variant="dark" type="button" onClick={handlePlayAgain}>
+                        Play again
                          </Button>
-                    </>) :
-                    (
-                        <Button variant="dark" type="button" onClick={handlePlayAgain}>
-                            Play again
-                         </Button>
-                    )}
+                )}
             </div>
         </div>
     );
