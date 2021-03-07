@@ -32,10 +32,11 @@ function MatchHistory(props) {
                 return (
                     <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '15px', backgroundImage: `url(${cardBackGround})`, borderStyle: "solid", borderRadius: '5px', boxShadow: '4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '3px solid white', padding: '5px', fontWeight: 'bold' }}>
-                            <div>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'space-between'  }}>
                                 {moment(game.date).tz("America/New_York").format('MMMM Do, YYYY')}
+                                <div>{game.winning_side === 'blue' ? "Blue (Victory)" : "Red (Victory"}</div>
                             </div>
-                            <div style={{ display: 'flex', flexDirection: 'column', alignItems:'flex-end' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end'}}>
                                 <img style={{ width: '50px', height: '50px' }} src={game.map === 'Howling Abyss' ? haIcon : srIcon} />
                                 <div>{game.map}</div>
                             </div>
