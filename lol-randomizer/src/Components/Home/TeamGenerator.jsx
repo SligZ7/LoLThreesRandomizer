@@ -4,14 +4,14 @@ import axios from 'axios';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import TeamTable from './TeamTable';
+import moment from 'moment-timezone';
 
 const Teams = ({ setAvailable, selected, setSelected }) => {
     const [tracked, setTracked] = useState(false);
     const [blueTeam, setBlueTeam] = useState([]);
     const [redTeam, setRedTeam] = useState([]);
-    const [isAram, setIsAram] = useState(false);
-    const [forceRoles, setForceRoles] = useState(false);
-
+    const [isAram, setIsAram] = useState(JSON.parse(localStorage.getItem('isAram')) || false);
+    const [forceRoles, setForceRoles] = useState(JSON.parse(localStorage.getItem('forceRoles')) || false);
     const map = useMemo(() => isAram ? 'Howling Abyss' : 'Summoner\'s Rift', [isAram]);
 
     useEffect(() => {
@@ -48,26 +48,32 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
     }, [redTeam, blueTeam])
 
     const handleRotatePlayers = () => {
-        let playerClone = blueTeam.length ? Array.from([...blueTeam, ...redTeam]) : Array.from(selected);
-        console.log('playerclone', playerClone);
-        playerClone.unshift(playerClone.pop());
+        if(selected.length != 4){
+            return;
+        }
+
+        const playerClone = Array.from(selected);
+        const temp1 = playerClone.slice(0, 1);
+        const temp2 = playerClone.slice(1, 4);
+        temp2.unshift(temp2.pop());
+
         playerClone[0].role = "Fill";
         playerClone[1].role = "Fill";
         playerClone[2].role = "Fill";
         playerClone[3].role = "Fill";
+
         const rTeam = [playerClone[0], playerClone[2]];
         const bTeam = [playerClone[1], playerClone[3]];
+
         setBlueTeam(rTeam);
         setRedTeam(bTeam);
+        setSelected([...temp1, ...temp2]);
         localStorage.setItem('redTeam', JSON.stringify(rTeam));
         localStorage.setItem('blueTeam', JSON.stringify(bTeam));
     };
 
     const handleRandomize = () => {
         const len = selected.length;
-        if (len >= 4 && len < 6) {
-            handleRotatePlayers();
-        }
 
         if (len < 6 || len % 2 !== 0) {
             return;
@@ -109,10 +115,12 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
     }
 
     const handleRolesToggle = () => {
+        localStorage.setItem('forceRoles', JSON.stringify(!forceRoles));
         setForceRoles(!forceRoles);
     };
 
     const handleAramToggle = () => {
+        localStorage.setItem('isAram', JSON.stringify(!isAram));
         setIsAram(!isAram);
     }
 
@@ -144,7 +152,7 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
         const blue = blueTeamArray.join(',');
 
         axios.post('http://localhost:5000/games',
-            { map, game_size: redTeam.length, winners, losers, winning_side: 'red', loserIds, winnerIds, blue, red });
+            { map, game_size: redTeam.length, winners, losers, winning_side: 'red', loserIds, winnerIds, blue, red, date: moment(Date.now()).tz("America/New_York").format('YYYY-MM-DD') });
         setTracked(true);
     }
 
@@ -176,7 +184,7 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
         const blue = blueTeamArray.join(',');
 
         axios.post('http://localhost:5000/games',
-            { map, game_size: blueTeam.length, winners, losers, winning_side: 'blue', loserIds, winnerIds, blue, red });
+            { map, game_size: blueTeam.length, winners, losers, winning_side: 'blue', loserIds, winnerIds, blue, red, date: moment(Date.now()).tz("America/New_York").format('YYYY-MM-DD') });
         setTracked(true);
     }
 

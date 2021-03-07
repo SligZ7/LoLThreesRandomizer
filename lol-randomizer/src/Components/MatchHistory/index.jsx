@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import Player from './Player';
 import Typography from '@material-ui/core/Typography';
 import cardBackGround from '../../Assets/bg.png';
@@ -23,7 +23,6 @@ function MatchHistory(props) {
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Typography variant="h4" style={{ marginBottom: '20px', marginTop: '20px' }}>Match History</Typography>
             {games.map(game => {
-                console.log('g', game);
                 if (!game.red || !game.blue) {
                     return;
                 }
@@ -34,7 +33,7 @@ function MatchHistory(props) {
                     <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '15px', backgroundImage: `url(${cardBackGround})`, borderStyle: "solid", borderRadius: '5px', boxShadow: '4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '3px solid white', padding: '5px', fontWeight: 'bold' }}>
                             <div>
-                                {moment(game.date).format('MMMM Do, YYYY')}
+                                {moment(game.date).tz("America/New_York").format('MMMM Do, YYYY')}
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems:'flex-end' }}>
                                 <img style={{ width: '50px', height: '50px' }} src={game.map === 'Howling Abyss' ? haIcon : srIcon} />
