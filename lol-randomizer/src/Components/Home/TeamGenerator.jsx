@@ -176,7 +176,6 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
         const winnerIds = winnerIdsArray.join(',');
         const red = redTeamArray.join(',');
         const blue = blueTeamArray.join(',');
-        console.log('winners', winners);
         axios.post('http://localhost:5000/games',
             { map, game_size: redTeam.length, winners, losers, winning_side: 'red', loserIds, winnerIds, blue, red, date: moment(Date.now()).tz("America/New_York").format('YYYY-MM-DD') }).then(() => setTracked(true));
     }
