@@ -65,8 +65,8 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
         const rTeam = [playerClone[0], playerClone[2]];
         const bTeam = [playerClone[1], playerClone[3]];
 
-        setBlueTeam(rTeam);
-        setRedTeam(bTeam);
+        setBlueTeam(bTeam);
+        setRedTeam(rTeam);
         setSelected([...temp1, ...temp2]);
         localStorage.setItem('redTeam', JSON.stringify(rTeam));
         localStorage.setItem('blueTeam', JSON.stringify(bTeam));
@@ -103,8 +103,10 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
                 bTeam.push(person);
             }
         }
-        setBlueTeam(rTeam);
-        setRedTeam(bTeam);
+
+        setRedTeam(rTeam);
+        setBlueTeam(bTeam);
+        
         localStorage.setItem('redTeam', JSON.stringify(rTeam));
         localStorage.setItem('blueTeam', JSON.stringify(bTeam));
     }
