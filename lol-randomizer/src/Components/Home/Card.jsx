@@ -17,7 +17,7 @@ export default function PlayerCard({ player, color, isAram }) {
             {color === 'blue' ? <div style={{ ...imgContainer, backgroundColor: 'MidnightBlue' }} > {player.role === 'Jungle' ? <img src={jungleIcon} alt="" style={imgStyling} /> : player.role === "Lane" ? <img src={laneIcon} alt="" style={imgStyling} /> : <img src={fillIcon} style={imgStyling} alt="" />} </div> : ''}
             <div style={{ display: 'flex', justifyContent: 'space-between', flexGrow: '1' }}>
                 <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                    <Typography variant="h4" style={{}}>
+                    <Typography variant="h4" >
                         {player.name}
                     </Typography>
                     <Typography variant="h6">
