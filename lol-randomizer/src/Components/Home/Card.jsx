@@ -25,7 +25,7 @@ const imgContainer = { display: 'flex', justifyContent: 'center', alignItems: 'c
 export default function PlayerCard({ player, color, isAram }) {
 
     return (
-        <Card style={{ display: 'flex', backgroundColor: '#DCDCDC', marginBottom: '10px', height: '100px', width: '400px', backgroundColor: color === 'blue' ? `rgba(0, 0, 255, .1)` : 'rgba(255, 0, 0, .2)' }}>
+        <Card style={{ display: 'flex', backgroundColor: '#DCDCDC', marginBottom: '10px', height: '100px', width: '400px', backgroundColor: color === 'blue' ? `rgba(0, 0, 255, .1)` : 'rgba(255, 0, 0, .2)', borderRadius: '15px' }}>
             {color === 'blue' ? <div style={{ ...imgContainer, backgroundColor: 'MidnightBlue' }} > {player.role === 'Jungle' ? <img src={jungleIcon} alt="" style={imgStyling} /> : player.role === "Lane" ? <img src={laneIcon} alt="" style={imgStyling} /> : <img src={fillIcon} style={imgStyling} alt="" />} </div> : ''}
             <div style={{ display: 'flex', justifyContent: 'space-between', flexGrow: '1' }}>
                 <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
@@ -33,7 +33,7 @@ export default function PlayerCard({ player, color, isAram }) {
                         {player.name}
                     </Typography>
                     <Typography variant="h6"  style={tex}>
-                        {isAram ? `${player.aram_wins} - ${player.aram_loses}` : `${player.wins} - ${player.loses}`}
+                        {isAram ? `${player.aram_wins} - ${player.aram_loses}` : `${player.wins}-${player.loses}`}
                     </Typography>
                 </CardContent>
                 <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }} >

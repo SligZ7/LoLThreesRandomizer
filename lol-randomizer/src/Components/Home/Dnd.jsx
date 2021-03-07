@@ -1,5 +1,8 @@
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import laneIcon from '../../Assets/lane_icon.png';
+
+
 /**
  * Moves an item from one list to another list.
  */
