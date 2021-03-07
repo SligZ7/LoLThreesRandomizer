@@ -48,7 +48,7 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
     }, [redTeam, blueTeam])
 
     const handleRotatePlayers = () => {
-        if(selected.length != 4){
+        if (selected.length != 4) {
             return;
         }
 
@@ -192,26 +192,33 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', paddingBottom: '3rem' }}>
-                <FormControlLabel
-                    control={<Switch checked={forceRoles} onChange={handleRolesToggle} name="roles" inputProps={{ 'aria-label': 'checkbox with default color' }} />}
-                    label="Force roles"
-                />
-                <FormControlLabel
-                    control={<Switch checked={isAram} onChange={handleAramToggle} name="roles" inputProps={{ 'aria-label': 'checkbox with default color' }} />}
-                    label="ARAM"
-                />
-                <Button type="button" variant="primary" onClick={handleRandomize} style={{ width: '10rem', marginBottom: '10px' }} disabled={selected.length < 6 || selected.length % 2 !== 0}>
-                    Randomize
+                <div style={{ display: 'flex' }}>
+                    <FormControlLabel
+                        control={<Switch checked={forceRoles} onChange={handleRolesToggle} name="roles" inputProps={{ 'aria-label': 'checkbox with default color' }} />}
+                        label="Force roles"
+                    />
+                    <Button type="button" variant="primary" onClick={handleRandomize} style={{ width: '10rem', marginBottom: '10px' }} disabled={selected.length < 6 || selected.length % 2 !== 0}>
+                        Randomize
                 </Button>
-                {isAram && <Button type="button" variant="primary" onClick={handleRotatePlayers} style={{ width: '10rem' }} disabled={selected.length < 4 || selected.length % 2 !== 0 || selected.length >= 6}>
-                    Rotate
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', height: '50px' }}>
+                    <FormControlLabel
+                        control={<Switch checked={isAram} onChange={handleAramToggle} name="roles" inputProps={{ 'aria-label': 'checkbox with default color' }} />}
+                        label="ARAM"
+                    />
+                    {isAram && <Button type="button" variant="primary" onClick={handleRotatePlayers} style={{ width: '10rem', marginBottom: '10px' }} disabled={selected.length < 4 || selected.length % 2 !== 0 || selected.length >= 6}>
+                        Rotate
                 </Button>}
+                </div>
+
             </div>
-            <div style={{ display: 'flex' }}>
+            <div style={{ display: 'flex', minHeight: '300px' }}>
                 <div style={{ marginRight: '10px' }}>
                     <TeamTable team={blueTeam} isAram={isAram} color="blue" />
                 </div>
-                <TeamTable team={redTeam}  isAram={isAram} color="red" />
+                <div>
+                    <TeamTable team={redTeam} isAram={isAram} color="red" />
+                </div>
             </div>
             <div>
                 {!tracked ? (
