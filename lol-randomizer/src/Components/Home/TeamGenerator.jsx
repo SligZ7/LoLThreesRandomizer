@@ -154,8 +154,7 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
         const blue = blueTeamArray.join(',');
 
         axios.post('http://localhost:5000/games',
-            { map, game_size: redTeam.length, winners, losers, winning_side: 'red', loserIds, winnerIds, blue, red, date: moment(Date.now()).tz("America/New_York").format('YYYY-MM-DD') });
-        setTracked(true);
+            { map, game_size: redTeam.length, winners, losers, winning_side: 'red', loserIds, winnerIds, blue, red, date: moment(Date.now()).tz("America/New_York").format('YYYY-MM-DD') }).then(() => setTracked(true));
     }
 
     const handleBlueWinButton = () => {
@@ -186,8 +185,8 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
         const blue = blueTeamArray.join(',');
 
         axios.post('http://localhost:5000/games',
-            { map, game_size: blueTeam.length, winners, losers, winning_side: 'blue', loserIds, winnerIds, blue, red, date: moment(Date.now()).tz("America/New_York").format('YYYY-MM-DD') });
-        setTracked(true);
+            { map, game_size: blueTeam.length, winners, losers, winning_side: 'blue', loserIds, winnerIds, blue, red, date: moment(Date.now()).tz("America/New_York").format('YYYY-MM-DD') }).then(() => setTracked(true));
+
     }
 
 
@@ -208,9 +207,9 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
                         control={<Switch checked={isAram} onChange={handleAramToggle} name="roles" inputProps={{ 'aria-label': 'checkbox with default color' }} />}
                         label="ARAM"
                     />
-                    {isAram && <Button type="button" variant="primary" onClick={handleRotatePlayers} style={{ width: '10rem', marginBottom: '10px' }} disabled={selected.length < 4 || selected.length % 2 !== 0 || selected.length >= 6}>
+                    <Button type="button" variant="primary" onClick={handleRotatePlayers} style={{ width: '10rem', marginBottom: '10px' }} disabled={!selected.length == 4 || selected.length % 2 !== 0 || !isAram}>
                         Rotate
-                </Button>}
+                </Button>
                 </div>
 
             </div>
