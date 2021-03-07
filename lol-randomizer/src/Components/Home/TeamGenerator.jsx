@@ -5,6 +5,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import TeamTable from './TeamTable';
 import moment from 'moment-timezone';
+import GameWinDialog from './GameWinDialog';
 
 const Teams = ({ setAvailable, selected, setSelected }) => {
     const [tracked, setTracked] = useState(false);
@@ -13,6 +14,8 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
     const [isAram, setIsAram] = useState(JSON.parse(localStorage.getItem('isAram')) || false);
     const [forceRoles, setForceRoles] = useState(JSON.parse(localStorage.getItem('forceRoles')) || false);
     const map = useMemo(() => isAram ? 'Howling Abyss' : 'Summoner\'s Rift', [isAram]);
+    const [open, setOpen] = React.useState(false);
+    const [winner, setWinner] = React.useState('');
 
     useEffect(() => {
         axios.get('http://localhost:5000/players')
@@ -39,7 +42,7 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
                     setRedTeam(redLatest);
                 }
             });
-    }, [])
+    }, [setAvailable, setSelected])
 
     useEffect(() => {
         // Keep roles updated incase of page swap, refresh etc
@@ -48,7 +51,7 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
     }, [redTeam, blueTeam])
 
     const handleRotatePlayers = () => {
-        if (selected.length != 4) {
+        if (selected.length !== 4) {
             return;
         }
 
@@ -126,7 +129,12 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
         setIsAram(!isAram);
     }
 
-    const handleRedWinButton = () => {
+    const handleOpenDialog = (winner) => () => {
+        setWinner(winner);
+        setOpen(true);
+    }
+
+    const handleGameWin = (winner) => {
         const winnersArray = [];
         const losersArray = [];
         const loserIdsArray = [];
@@ -134,17 +142,33 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
         const redTeamArray = [];
         const blueTeamArray = [];
 
-        redTeam.forEach(element => {
-            winnersArray.push(`${element.name}-${element.id}`);
-            winnerIdsArray.push(element.id);
-            redTeamArray.push(`${element.role}-${element.name}`);
-        });
+        if (winner === 'red') {
+            redTeam.forEach(element => {
+                winnersArray.push(`${element.name}-${element.id}`);
+                winnerIdsArray.push(element.id);
+                redTeamArray.push(`${element.role}-${element.name}`);
+            });
 
-        blueTeam.forEach(element => {
-            losersArray.push(`${element.name}-${element.id}`);
-            loserIdsArray.push(element.id);
-            blueTeamArray.push(`${element.role}-${element.name}`);
-        });
+            blueTeam.forEach(element => {
+                losersArray.push(`${element.name}-${element.id}`);
+                loserIdsArray.push(element.id);
+                blueTeamArray.push(`${element.role}-${element.name}`);
+            });
+        } else {
+            blueTeam.forEach(element => {
+                winnersArray.push(`${element.name}-${element.id}`);
+                winnerIdsArray.push(element.id);
+                blueTeamArray.push(`${element.role}-${element.name}`);
+            });
+
+            redTeam.forEach(element => {
+                losersArray.push(`${element.name}-${element.id}`);
+                loserIdsArray.push(element.id);
+                redTeamArray.push(`${element.role}-${element.name}`);
+            });
+
+        }
+
 
         const losers = losersArray.join(',');
         const winners = winnersArray.join(',');
@@ -152,46 +176,14 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
         const winnerIds = winnerIdsArray.join(',');
         const red = redTeamArray.join(',');
         const blue = blueTeamArray.join(',');
-
+        console.log('winners', winners);
         axios.post('http://localhost:5000/games',
             { map, game_size: redTeam.length, winners, losers, winning_side: 'red', loserIds, winnerIds, blue, red, date: moment(Date.now()).tz("America/New_York").format('YYYY-MM-DD') }).then(() => setTracked(true));
     }
 
-    const handleBlueWinButton = () => {
-        const winnersArray = [];
-        const losersArray = [];
-        const loserIdsArray = [];
-        const winnerIdsArray = [];
-        const redTeamArray = [];
-        const blueTeamArray = [];
-
-        blueTeam.forEach(element => {
-            winnersArray.push(`${element.name}-${element.id}`);
-            winnerIdsArray.push(element.id);
-            blueTeamArray.push(`${element.role}-${element.name}`);
-        });
-
-        redTeam.forEach(element => {
-            losersArray.push(`${element.name}-${element.id}`);
-            loserIdsArray.push(element.id);
-            redTeamArray.push(`${element.role}-${element.name}`);
-        });
-
-        const losers = losersArray.join(',');
-        const winners = winnersArray.join(',');
-        const loserIds = loserIdsArray.join(',');
-        const winnerIds = winnerIdsArray.join(',');
-        const red = redTeamArray.join(',');
-        const blue = blueTeamArray.join(',');
-
-        axios.post('http://localhost:5000/games',
-            { map, game_size: blueTeam.length, winners, losers, winning_side: 'blue', loserIds, winnerIds, blue, red, date: moment(Date.now()).tz("America/New_York").format('YYYY-MM-DD') }).then(() => setTracked(true));
-
-    }
-
-
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <GameWinDialog open={open} setOpen={setOpen} isAram={isAram} handleGameWin={handleGameWin} winner={winner} />
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', paddingBottom: '3rem' }}>
                 <div style={{ display: 'flex' }}>
                     <FormControlLabel
@@ -207,7 +199,7 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
                         control={<Switch checked={isAram} onChange={handleAramToggle} name="roles" inputProps={{ 'aria-label': 'checkbox with default color' }} />}
                         label="ARAM"
                     />
-                    <Button type="button" variant="primary" onClick={handleRotatePlayers} style={{ width: '10rem', marginBottom: '10px' }} disabled={!selected.length == 4 || selected.length % 2 !== 0 || !isAram}>
+                    <Button type="button" variant="primary" onClick={handleRotatePlayers} style={{ width: '10rem', marginBottom: '10px' }} disabled={selected.length !== 4 || selected.length % 2 !== 0 || !isAram}>
                         Rotate
                 </Button>
                 </div>
@@ -216,13 +208,13 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
             <div style={{ display: 'flex', minHeight: '300px' }}>
                 <div style={{ marginRight: '10px' }}>
                     <TeamTable team={blueTeam} isAram={isAram} color="blue" />
-                    {!tracked && <Button variant="dark" type="button" onClick={handleBlueWinButton} style={{ backgroundColor: '#00008B', marginRight: '2rem' }}>
+                    {!tracked && <Button variant="dark" type="button" onClick={handleOpenDialog('blue')} style={{ backgroundColor: '#00008B', marginRight: '2rem' }}>
                         Blue wins
                         </Button>}
                 </div>
                 <div>
                     <TeamTable team={redTeam} isAram={isAram} color="red" />
-                    {!tracked && <Button variant="dark" type="button" onClick={handleRedWinButton} style={{ backgroundColor: '#8B0000' }}>
+                    {!tracked && <Button variant="dark" type="button" onClick={handleOpenDialog('red')} style={{ backgroundColor: '#8B0000' }}>
                         Red wins
                          </Button>}
                 </div>

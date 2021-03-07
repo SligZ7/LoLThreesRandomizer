@@ -7,6 +7,7 @@ import cardBackGround from '../../Assets/bg.png';
 import haIcon from '../../Assets/ha_icon.png';
 import srIcon from '../../Assets/sr_icon.png';
 
+
 function MatchHistory(props) {
 
     const [games, setGames] = useState([]);
@@ -24,7 +25,7 @@ function MatchHistory(props) {
             <Typography variant="h4" style={{ marginBottom: '20px', marginTop: '20px' }}>Match History</Typography>
             {games.map(game => {
                 if (!game.red || !game.blue) {
-                    return;
+                    return null;
                 }
 
                 const red = game.red.split(",");
@@ -35,9 +36,10 @@ function MatchHistory(props) {
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'space-between'  }}>
                                 {moment(game.date).tz("America/New_York").format('MMMM Do, YYYY')}
                                 <div>{game.winning_side === 'blue' ? "Blue (Victory)" : "Red (Victory"}</div>
+                              
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end'}}>
-                                <img style={{ width: '50px', height: '50px' }} src={game.map === 'Howling Abyss' ? haIcon : srIcon} />
+                                <img alt="" style={{ width: '50px', height: '50px' }} src={game.map === 'Howling Abyss' ? haIcon : srIcon} />
                                 <div>{game.map}</div>
                             </div>
 

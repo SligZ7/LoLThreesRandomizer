@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from 'react-bootstrap';
 import axios from 'axios';
 import AllPlayersTable from './AllPlayersTable';
 import { Table } from 'react-bootstrap';
