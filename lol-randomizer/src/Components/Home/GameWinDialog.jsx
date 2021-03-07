@@ -34,11 +34,10 @@ export default function GameWinDialog({ open, setOpen, isAram, handleGameWin, wi
                 <DialogActions>
                     <Button onClick={handleAgree} color="primary" autoFocus>
                         Agree
-          </Button>
+                    </Button>
                     <Button onClick={handleClose} color="primary">
                         Disagree
-          </Button>
-
+                    </Button>
                 </DialogActions>
             </Dialog>
         </div>
