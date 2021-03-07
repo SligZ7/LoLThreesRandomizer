@@ -3,6 +3,9 @@ import axios from 'axios';
 import moment from 'moment';
 import Player from './Player';
 import Typography from '@material-ui/core/Typography';
+import cardBackGround from '../../Assets/bg.png';
+import haIcon from '../../Assets/ha_icon.png';
+import srIcon from '../../Assets/sr_icon.png';
 
 function MatchHistory(props) {
 
@@ -28,12 +31,16 @@ function MatchHistory(props) {
                 const red = game.red.split(",");
                 const blue = game.blue.split(',');
                 return (
-                    <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '15px', backgroundColor: '#a6a6a6', borderStyle: "solid", borderRadius: '5px', boxShadow: '4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '15px', backgroundImage: `url(${cardBackGround})`, borderStyle: "solid", borderRadius: '5px', boxShadow: '4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '3px solid white', padding: '5px', fontWeight: 'bold' }}>
                             <div>
                                 {moment(game.date).format('MMMM Do, YYYY')}
                             </div>
-                            <div>{game.map}</div>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems:'flex-end' }}>
+                                <img style={{ width: '50px', height: '50px' }} src={game.map === 'Howling Abyss' ? haIcon : srIcon} />
+                                <div>{game.map}</div>
+                            </div>
+
                         </div>
                         <div style={{ display: 'flex', padding: '10px' }} >
                             <div style={{ marginRight: '20px' }}>
@@ -57,7 +64,7 @@ function MatchHistory(props) {
                 )
             }
             )}
-        </div>
+        </div >
     );
 }
 
