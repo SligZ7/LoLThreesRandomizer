@@ -12,7 +12,7 @@ import laneIcon from '../../Assets/lane_icon.png';
 const imgStyling = { width: '90px', height: '90px' };
 
 const imgContainer = { display: 'flex', justifyContent: 'center', alignItems: 'center' };
-export default function PlayerCard({ player, color }) {
+export default function PlayerCard({ player, color, isAram }) {
 
     return (
         <Card style={{ display: 'flex', backgroundColor: '#DCDCDC', marginBottom: '10px', height: '100px', width: '400px' }}>
@@ -23,12 +23,12 @@ export default function PlayerCard({ player, color }) {
                         {player.name}
                     </Typography>
                     <Typography variant="h6">
-                        {`${player.wins} - ${player.loses}`}
+                        {isAram ?  `${player.aram_wins} - ${player.aram_loses}`: `${player.wins} - ${player.loses}`}
                     </Typography>
                 </CardContent>
                 <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'space-between', flexGrow: '1' }}>
                     <Typography variant="h4" color="textSecondary" style={{}}>
-                        {player.winrate}%
+                    {isAram ?  `${player.aram_winrate}`: `${player.winrate}`}%
                     </Typography>
                 </CardContent>
             </div>

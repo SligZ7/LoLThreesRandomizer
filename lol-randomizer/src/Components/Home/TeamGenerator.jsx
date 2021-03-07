@@ -209,9 +209,9 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
             </div>
             <div style={{ display: 'flex' }}>
                 <div style={{ marginRight: '10px' }}>
-                    <TeamTable team={blueTeam} color="blue" />
+                    <TeamTable team={blueTeam} isAram={isAram} color="blue" />
                 </div>
-                <TeamTable team={redTeam} color="red" />
+                <TeamTable team={redTeam}  isAram={isAram} color="red" />
             </div>
             <div>
                 {!tracked ? (
