@@ -26,7 +26,7 @@ const imgContainer = { display: 'flex', justifyContent: 'center', alignItems: 'c
 export default function PlayerCard({ player, color, isAram }) {
 
     return (
-        <Card style={{ display: 'flex', backgroundColor: '#DCDCDC', marginBottom: '10px', height: '100px', width: '400px', backgroundColor: color === 'blue' ? `rgba(0, 0, 255, .4)` : 'rgba(255, 0, 0, .4)' }}>
+        <Card style={{ display: 'flex', marginBottom: '10px', height: '100px', width: '400px', backgroundColor: color === 'blue' ? `rgba(0, 0, 255, .4)` : 'rgba(255, 0, 0, .4)' }}>
             {color === 'blue' ? <div style={{ ...imgContainer, backgroundColor: 'MidnightBlue' }} > {player.role === 'Jungle' ? <img src={jungleIcon} alt="" style={imgStyling} /> : player.role === "Lane" ? <img src={laneIcon} alt="" style={imgStyling} /> : <img src={fillIcon} style={imgStyling} alt="" />} </div> : ''}
             <div style={{ display: 'flex', justifyContent: 'space-between', flexGrow: '1' }}>
                 <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>

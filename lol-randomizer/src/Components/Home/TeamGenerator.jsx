@@ -21,8 +21,6 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
         axios.get('http://localhost:5000/players')
             .then(({ data }) => {
 
-                
-
                 // If we already have selected or available get them from local storage, otherwise use the fetched data
                 if (localStorage.getItem('selected') || localStorage.getItem('available')) {
                     setAvailable(JSON.parse(localStorage.getItem('available') || []));
@@ -37,15 +35,22 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
                 if (localStorage.getItem('redTeam') || localStorage.getItem('blueTeam')) {
                     const blueLocal = JSON.parse(localStorage.getItem('blueTeam'));
                     const redLocal = JSON.parse(localStorage.getItem('redTeam'));
-                   
-                    const blueLatest = blueLocal.map(blue =>   Object.assign(blue, data.find(x => x.id === blue.id)));
-                    const redLatest = redLocal.map(red =>  Object.assign(red, data.find(x => x.id === red.id)));
-                   
+
+                    const blueLatest = blueLocal.map(blue => Object.assign(blue, data.find(x => x.id === blue.id)));
+                    const redLatest = redLocal.map(red => Object.assign(red, data.find(x => x.id === red.id)));
+
                     setBlueTeam(blueLatest);
                     setRedTeam(redLatest);
                 }
             });
     }, [setAvailable, setSelected])
+
+    useEffect(() => {
+        if (redTeam.length && blueTeam.length) {
+            localStorage.setItem('redTeam', JSON.stringify(redTeam));
+            localStorage.setItem('blueTeam', JSON.stringify(blueTeam));
+        }
+    }, [redTeam, blueTeam]);
 
     const handleRotatePlayers = () => {
         if (selected.length !== 4) {
@@ -68,8 +73,6 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
         setBlueTeam(bTeam);
         setRedTeam(rTeam);
         setSelected([...temp1, ...temp2]);
-        localStorage.setItem('redTeam', JSON.stringify(rTeam));
-        localStorage.setItem('blueTeam', JSON.stringify(bTeam));
     };
 
     const handleRandomize = () => {
@@ -107,9 +110,6 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
 
         setRedTeam(rTeam);
         setBlueTeam(bTeam);
-
-        localStorage.setItem('redTeam', JSON.stringify(rTeam));
-        localStorage.setItem('blueTeam', JSON.stringify(bTeam));
     }
 
     const handlePlayAgain = () => {
@@ -133,6 +133,11 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
     }
 
     const handleGameWin = (winner) => {
+        if(redTeam.some(r => r.champion === "Champion") || blueTeam.some(b => b.champion === "Champion")){
+            console.error('Cant submit without champion entries');
+            return;
+        }
+
         const winnersArray = [];
         const losersArray = [];
         const loserIdsArray = [];
@@ -144,25 +149,25 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
             redTeam.forEach(element => {
                 winnersArray.push(`${element.name}-${element.id}`);
                 winnerIdsArray.push(element.id);
-                redTeamArray.push(`${element.role}-${element.name}`);
+                redTeamArray.push(`${element.id}-${element.role}-${element.champion}-${element.name}-${element.id}`);
             });
 
             blueTeam.forEach(element => {
                 losersArray.push(`${element.name}-${element.id}`);
                 loserIdsArray.push(element.id);
-                blueTeamArray.push(`${element.role}-${element.name}`);
+                blueTeamArray.push(`${element.id}-${element.role}-${element.champion}-${element.name}-${element.id}`);
             });
         } else {
             blueTeam.forEach(element => {
                 winnersArray.push(`${element.name}-${element.id}`);
                 winnerIdsArray.push(element.id);
-                blueTeamArray.push(`${element.role}-${element.name}`);
+                blueTeamArray.push(`${element.id}-${element.role}-${element.champion}-${element.name}-${element.id}`);
             });
 
             redTeam.forEach(element => {
                 losersArray.push(`${element.name}-${element.id}`);
                 loserIdsArray.push(element.id);
-                redTeamArray.push(`${element.role}-${element.name}`);
+                redTeamArray.push(`${element.id}-${element.role}-${element.champion}-${element.name}-${element.id}`);
             });
 
         }

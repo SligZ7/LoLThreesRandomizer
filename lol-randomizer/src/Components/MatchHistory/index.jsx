@@ -27,7 +27,6 @@ function MatchHistory(props) {
     }, [page]);
 
     const onPageChange = (event, page) => {
-        console.log('page', page);
         setPage(page);
     };
 
@@ -54,17 +53,18 @@ function MatchHistory(props) {
                         <div style={{ display: 'flex', padding: '10px' }} >
                             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', marginRight: '20px' }}  >
                                 {blue.map((b, index) => {
-                                    const [role, name] = b.split('-');
+                                    const [,role, champ, name] = b.split('-');
+                                    console.log('champ', champ, name);
                                     return (<div style={{ backgroundImage: game.winning_side === 'blue' ? `url(${victoryBlueIcon})` : '', backgroundPosition: `-40px -${((index + 1) * 75) - 75}px`, marginBottom: '5px', backgroundRepeat: 'no-repeat', backgroundSize: '400px', borderRadius: '5px', }}>
-                                        <Player name={name} role={role} color="blue" winner={game.winning_side === "blue"} />
+                                        <Player name={name} role={role} champ={champ} color="blue" winner={game.winning_side === "blue"} />
                                     </div>)
                                 })}
                             </div>
                             <div  >
                                 {red.map((r, index) => {
-                                    const [role, name] = r.split('-');
+                                    const [,role, champ, name] = r.split('-');
                                     return (<div style={{ backgroundImage: game.winning_side === 'red' ? `url(${victoryRedIcon})` : '', backgroundPosition: `-55px -${((index + 1) * 75) - 75}px`, marginBottom: '5px', backgroundRepeat: 'no-repeat', backgroundSize: '400px', borderRadius: '5px', }}>
-                                        <Player name={name} role={role} color="red" winner={game.winning_side === "red"} />
+                                        <Player name={name} role={role}  champ={champ} color="red" winner={game.winning_side === "red"} />
                                     </div>)
                                 })}
                             </div>
