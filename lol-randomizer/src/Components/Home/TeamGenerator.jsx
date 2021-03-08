@@ -97,11 +97,11 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
         while (playerClone.length > 0) {
             const [person] = playerClone.splice(Math.floor(Math.random() * playerClone.length), 1);
             if (playerClone.length % 2 === 0) {
-                const [role] = redRoles.splice(Math.floor(Math.random() * (playerClone.length/2)), 1);
+                const [role] = redRoles.splice(Math.floor(Math.random() * ((playerClone.length + 1)/2)), 1);
                 person.role = role;
                 rTeam.push(person);
             } else {
-                const [role] = blueRoles.splice(Math.floor(Math.random() *(playerClone.length/2)), 1);
+                const [role] = blueRoles.splice(Math.floor(Math.random() *((playerClone.length + 1)/2)), 1);
                 person.role = role;
                 bTeam.push(person);
             }
