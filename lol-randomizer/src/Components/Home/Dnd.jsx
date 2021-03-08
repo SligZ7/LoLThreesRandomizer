@@ -25,6 +25,7 @@ const grid = 8;
 const getAvailableItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
   userSelect: "none",
+  boxShadow: '2px 4px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.19)',
   padding: grid * 2,
   margin: `0 0 ${grid}px 0`,
   color: "black",
@@ -41,6 +42,7 @@ const getSelectedItemStyle = (isDragging, draggableStyle) => ({
   userSelect: "none",
   padding: grid * 2,
   margin: `0 0 ${grid}px 0`,
+  boxShadow: '2px 4px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.19)',
   color: "black",
   // change background colour if dragging
   background: isDragging ? "grey" : "DarkSeaGreen",
