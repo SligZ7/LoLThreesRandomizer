@@ -9,8 +9,10 @@ const Home = () => {
     return (
         <div style={{ padding: '20px 0px 20px 0px' }}>
             <div style={{ display: "flex", flexWrap: 'wrap', justifyContent: "space-around", alignItems: "start", height: '100%' }}>
-                <DnD available={available} selected={selected} setAvailable={setAvailable} setSelected={setSelected} />
-                <div style={{display: 'flex', height: '750px', alignItems: 'center'}}>
+                <div style={{marginBottom: '40px'}}>
+                    <DnD available={available} selected={selected} setAvailable={setAvailable} setSelected={setSelected} />
+                </div>
+                <div style={{ display: 'flex', height: '750px', alignItems: 'center' }}>
                     <TeamGenerator setAvailable={setAvailable} selected={selected} setSelected={setSelected} />
                 </div>
 
