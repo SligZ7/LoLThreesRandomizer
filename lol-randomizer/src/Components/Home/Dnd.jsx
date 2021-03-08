@@ -1,6 +1,7 @@
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import laneIcon from '../../Assets/lane_icon.png';
+import sr from '../../Assets/bg.jpg';
+
 
 
 /**
@@ -50,8 +51,12 @@ const getSelectedItemStyle = (isDragging, draggableStyle) => ({
 });
 
 const getListStyle = isDraggingOver => ({
-  background: isDraggingOver ? "lightblue" : "lightgrey",
   boxShadow: '4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+  backgroundImage: `url(${sr})`,
+  // backgroundColor: 'rgba(255, 0, 0, .3)',
+  backgroundPosition: '-900px -0px',
+  backgroundSize: '2000px',
+  opacity: '1',
   padding: grid,
   width: 200,
   height: 750,
