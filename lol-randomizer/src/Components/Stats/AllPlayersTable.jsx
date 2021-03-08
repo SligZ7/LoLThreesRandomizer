@@ -1,7 +1,8 @@
 import React from 'react'
 import { Table } from 'react-bootstrap';
+import { winrateColor} from '../../utils';
 
-export default function AllPlayersTable({allPlayers, handleStats}) {
+export default function AllPlayersTable({allPlayers, isAram}) {
     return (
         <Table striped bordered className="text-white" small="true" style={{ fontWeight: 'bold' }}>
             <thead>
@@ -17,11 +18,11 @@ export default function AllPlayersTable({allPlayers, handleStats}) {
                     return (
                         <tr key={`${player.id}-${index}`}>
                             <td>{player.name}</td>
-                            <td>{player.wins}</td>
-                            <td>{player.loses}</td>
+                            <td>{isAram ? player.aram_wins : player.wins}</td>
+                            <td>{isAram ? player.aram_loses : player.loses}</td>
                             <td style={{
-                                backgroundColor: player.winrate > 50 ? 'SeaGreen' : (player.wins > 0 || player.loses > 0) && player.winrate <= 49 ? 'indianred' : ''
-                            }}>{player.winrate ? player.winrate : 0}%</td>
+                                backgroundColor: isAram ? winrateColor(player.aram_winrate, player.aram_wins, player.aram_loses) :  winrateColor(player.winrate, player.wins, player.loses) 
+                            }}>{isAram ? player.aram_winrate : player.winrate }%</td>
                         </tr>
                     )
                 })}
