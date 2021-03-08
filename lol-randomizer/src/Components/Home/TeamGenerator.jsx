@@ -21,34 +21,31 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
         axios.get('http://localhost:5000/players')
             .then(({ data }) => {
 
+                
+
                 // If we already have selected or available get them from local storage, otherwise use the fetched data
                 if (localStorage.getItem('selected') || localStorage.getItem('available')) {
                     setAvailable(JSON.parse(localStorage.getItem('available') || []));
                     setSelected(JSON.parse(localStorage.getItem('selected') || []));
                 } else {
                     const newData = data.slice();
-                    newData.sort((a, b) => b.wins - a.wins || a.loses - b.loses);
+                    // newData.sort((a, b) => b.wins - a.wins || a.loses - b.loses);
                     setAvailable(newData);
                 };
 
                 //  Fetch latest for redTeam, blueTeam even if we have it in storage
                 if (localStorage.getItem('redTeam') || localStorage.getItem('blueTeam')) {
-                    const redLocal = JSON.parse(localStorage.getItem('redTeam'));
                     const blueLocal = JSON.parse(localStorage.getItem('blueTeam'));
-                    const redLatest = data.filter((d) => redLocal.some(red => red.id === d.id));
-                    const blueLatest = data.filter((d) => blueLocal.some(blue => blue.id === d.id));
-
+                    const redLocal = JSON.parse(localStorage.getItem('redTeam'));
+                   
+                    const blueLatest = blueLocal.map(blue =>   Object.assign(blue, data.find(x => x.id === blue.id)));
+                    const redLatest = redLocal.map(red =>  Object.assign(red, data.find(x => x.id === red.id)));
+                   
                     setBlueTeam(blueLatest);
                     setRedTeam(redLatest);
                 }
             });
     }, [setAvailable, setSelected])
-
-    useEffect(() => {
-        // Keep roles updated incase of page swap, refresh etc
-        redTeam.map(async red => await axios.post('http://localhost:5000/setRole', { id: red.id, role: red.role }));
-        blueTeam.map(async blue => await axios.post('http://localhost:5000/setRole', { id: blue.id, role: blue.role }));
-    }, [redTeam, blueTeam])
 
     const handleRotatePlayers = () => {
         if (selected.length !== 4) {
@@ -96,12 +93,13 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
 
         while (playerClone.length > 0) {
             const [person] = playerClone.splice(Math.floor(Math.random() * playerClone.length), 1);
+            person.champion = "Champion";
             if (playerClone.length % 2 === 0) {
-                const [role] = redRoles.splice(Math.floor(Math.random() * ((playerClone.length + 1)/2)), 1);
+                const [role] = redRoles.splice(Math.floor(Math.random() * ((playerClone.length + 1) / 2)), 1);
                 person.role = role;
                 rTeam.push(person);
             } else {
-                const [role] = blueRoles.splice(Math.floor(Math.random() *((playerClone.length + 1)/2)), 1);
+                const [role] = blueRoles.splice(Math.floor(Math.random() * ((playerClone.length + 1) / 2)), 1);
                 person.role = role;
                 bTeam.push(person);
             }
@@ -202,17 +200,16 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
                         Rotate
                 </Button>
                 </div>
-
             </div>
             <div style={{ display: 'flex', minHeight: '300px' }}>
                 <div style={{ marginRight: '10px' }}>
-                    <TeamTable team={blueTeam} isAram={isAram} color="blue" />
+                    <TeamTable team={blueTeam} setTeam={setBlueTeam} isAram={isAram} color="blue" />
                     {!tracked && <Button variant="dark" type="button" onClick={handleOpenDialog('blue')} style={{ backgroundColor: '#00008B', marginRight: '2rem' }}>
                         Blue wins
                         </Button>}
                 </div>
                 <div>
-                    <TeamTable team={redTeam} isAram={isAram} color="red" />
+                    <TeamTable team={redTeam} setTeam={setRedTeam} isAram={isAram} color="red" />
                     {!tracked && <Button variant="dark" type="button" onClick={handleOpenDialog('red')} style={{ backgroundColor: '#8B0000' }}>
                         Red wins
                          </Button>}
