@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import AllPlayersTable from './AllPlayersTable';
 import { Table } from 'react-bootstrap';
+import { winrateColor } from '../../utils';
 
 const Stats = () => {
     const [stats, setStats] = useState([]);
@@ -15,7 +16,7 @@ const Stats = () => {
 
             const sortedData = data.slice();
             isAram ? sortedData.sort((a, b) => b.aram_wins - a.aram_wins || a.aram_loses - b.aram_loses) : sortedData.sort((a, b) => b.wins - a.wins || a.loses - b.loses);
-            let arr = await Promise.all(data.map(async (player) => await axios.get(isAram ?  `http://localhost:5000/aramStats/${player.id}` : `http://localhost:5000/stats/${player.id}` )));
+            let arr = await Promise.all(data.map(async (player) => await axios.get(isAram ? `http://localhost:5000/aramStats/${player.id}` : `http://localhost:5000/stats/${player.id}`)));
             arr = arr.map((res) => res.data);
 
             data.map((player, index) => arr.forEach((stat, i) => {
@@ -32,8 +33,8 @@ const Stats = () => {
     }
 
     return (
-        <div> 
-            <button onClick={handleSetAram} style={{marginTop: '30px'}}>Aram Toggle</button>
+        <div>
+            <button onClick={handleSetAram} style={{ marginTop: '30px' }}>Aram Toggle</button>
             <div style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap', alignContent: 'center', marginTop: '2rem', height: '100%', width: '100%' }}>
                 <div>
                     <AllPlayersTable allPlayers={sortedAllPlayers} isAram={isAram} />
@@ -51,7 +52,7 @@ const Stats = () => {
                                 <tr>
                                     <td>{player.name}</td>
                                     {stats[index].map((stat, i) =>
-                                        <td style={{ backgroundColor: stat.enemyWins / (stat.enemyWins + stat.enemyLoses) > .5 ? 'SeaGreen' : stat.enemyWins / (stat.enemyWins + stat.enemyLoses) < .5 ? 'indianred' : stat.enemyWins / (stat.enemyWins + stat.enemyLoses) === .5 ? 'SandyBrown' : '' }}>{stat.player ? `${stat.enemyWins}-${stat.enemyLoses}` : "NA"}</td>
+                                        <td style={{ backgroundColor: winrateColor((stat.enemyWins / (stat.enemyWins + stat.enemyLoses)) * 100, stat.enemyWins, stat.enemyLoses) }}>{stat.player ? `${stat.enemyWins}-${stat.enemyLoses}` : "NA"}</td>
                                     )}
                                 </tr>)}
                         </tbody>
@@ -70,7 +71,7 @@ const Stats = () => {
                                 <tr >
                                     <td>{player.name}</td>
                                     {stats[index].map((stat, i) =>
-                                        <td style={{ backgroundColor: stat.teamWins / (stat.teamWins + stat.teamLoses) > .5 ? 'SeaGreen' : stat.teamWins / (stat.teamWins + stat.teamLoses) < .5 ? 'indianred' : stat.teamWins / (stat.teamWins + stat.teamLoses) === .5 ? 'SandyBrown' : '' }}>{stat.player ? `${stat.teamWins}-${stat.teamLoses}` : "NA"}</td>
+                                        <td style={{ backgroundColor: winrateColor((stat.teamWins / (stat.teamWins + stat.teamLoses)) * 100, stat.teamWins, stat.teamLoses) }}>{stat.player ? `${stat.teamWins}-${stat.teamLoses}` : "NA"}</td>
                                     )}
                                 </tr>)}
                         </tbody>
