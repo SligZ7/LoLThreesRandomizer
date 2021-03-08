@@ -4,6 +4,7 @@ import moment from 'moment-timezone';
 import Player from './Player';
 import Typography from '@material-ui/core/Typography';
 import cardBackGround from '../../Assets/bg.jpg';
+import darkBg from '../../Assets/dark_bg.png';
 import haIcon from '../../Assets/ha_icon.png';
 import srIcon from '../../Assets/sr_icon.png';
 import victoryBlueIcon from '../../Assets/trophy_blue.png';
@@ -38,11 +39,10 @@ function MatchHistory(props) {
                 const blue = game.blue.split(',');
                 return (
                     <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '15px', backgroundImage: `url(${cardBackGround})`, borderStyle: "solid", backgroundPosition: '-500px 0px', borderRadius: '5px', boxShadow: '4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)', backgroundSize: '1500px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '3px solid white', padding: '5px', fontWeight: 'bold' }}>
-                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'space-between' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '3px solid white', padding: '5px', fontWeight: 'bold',  backgroundImage: `url(${darkBg})`,  backgroundPosition: '-100px 0px' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'space-between', }}>
                                 {moment(game.date).tz("America/New_York").format('MMMM Do, YYYY')}
                                 <div>{game.winning_side === 'blue' ? "Blue (Victory)" : "Red (Victory)"}</div>
-
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
                                 <img alt="" style={{ width: '50px', height: '50px' }} src={game.map === 'Howling Abyss' ? haIcon : srIcon} />
