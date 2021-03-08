@@ -4,11 +4,14 @@ import vayne from '../../Assets/vayne.png';
 import shyvana from '../../Assets/shyv.png';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
+import { importAll } from '../../utils';
+
+const images = importAll(require.context('../../Assets/champions', false, /\.png/));
 
 const champs = ['Champion', 'Aatrox', 'Ahri', 'Akali', 'Alistar', 'Amumu', 'Anivia', 'Annie', 'Aphelios', 'Ashe', 'Aurelion Sol', 'Azir',
     'Bard', 'Blitzcrank', 'Brand', 'Braum',
     'Caitlyn', 'Camille', 'Cassiopeia', 'Cho\'Gath', 'Corki',
-    'Darius', 'Diana', 'Dr. Mundo', 'Draven',
+    'Darius', 'Diana', 'Dr.Mundo', 'Draven',
     'Ekko', 'Elise', 'Evelynn', 'Ezreal',
     'Fiddlesticks', 'Fiora', 'Fizz',
     'Galio', 'Gangplank', 'Garen', 'Gnar', 'Gragas', 'Graves',
@@ -33,10 +36,10 @@ const champs = ['Champion', 'Aatrox', 'Ahri', 'Akali', 'Alistar', 'Amumu', 'Aniv
     'Zac', 'Zed', 'Ziggs', 'Zilean', 'Zoe', 'Zyra'];
 
 
+
 const cardContainer = { display: 'flex', flexDirection: 'column', justifyContent: 'space-between' };
 
 export default function TeamsTable({ team, setTeam, color, isAram }) {
-    console.log('champs', champs.length);
 
     return (
         <div style={cardContainer}>
@@ -45,17 +48,19 @@ export default function TeamsTable({ team, setTeam, color, isAram }) {
                     <div style={{ height: '100px', backgroundImage: color === 'blue' ? `url(${vayne})` : `url(${shyvana})`, backgroundPosition: color === 'blue' ? `25px -${((index + 1) * 100) - 100}px` : `-200px -${((index + 1) * 100) - 100}px`, backgroundRepeat: 'no-repeat', backgroundSize: '900px', boxShadow: '2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)', }}>
                         <PlayerCard key={index} color={color} player={player} isAram={isAram} />
                     </div>
-                    <div style={{ borderTop: 'solid', backgroundColor: 'white' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: 'solid', backgroundColor: 'white' }}>
                         <Autocomplete
                             value={player.champion || champs[0]}
                             onChange={(event, newInputValue) => {
                                 setTeam([...team.slice(0, index), { ...team[index], champion: newInputValue }, ...team.slice(index + 1)]);
                             }}
                             options={champs}
-                            style={{ width: 300 }}
-
+                            style={{ width: 340,}}
                             renderInput={(params) => <TextField {...params} variant="outlined" />}
                         />
+                        <div >
+                            <img src={images[`${player.champion}Square.png`].default} style={{ width: '57px', height: '57px' }} />
+                        </div>
                     </div>
                 </div>
             )
