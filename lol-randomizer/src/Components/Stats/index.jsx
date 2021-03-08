@@ -15,7 +15,7 @@ const Stats = () => {
 
             const sortedData = data.slice();
             isAram ? sortedData.sort((a, b) => b.aram_wins - a.aram_wins || a.aram_loses - b.aram_loses) : sortedData.sort((a, b) => b.wins - a.wins || a.loses - b.loses);
-            let arr = await Promise.all(data.map(async (player) => await axios.get(isAram ? `http://localhost:5000/stats/${player.id}` : `http://localhost:5000/aramStats/${player.id}`)));
+            let arr = await Promise.all(data.map(async (player) => await axios.get(isAram ?  `http://localhost:5000/aramStats/${player.id}` : `http://localhost:5000/stats/${player.id}` )));
             arr = arr.map((res) => res.data);
 
             data.map((player, index) => arr.forEach((stat, i) => {
