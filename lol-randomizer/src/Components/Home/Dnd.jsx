@@ -28,9 +28,9 @@ const getAvailableItemStyle = (isDragging, draggableStyle) => ({
   boxShadow: '2px 4px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.19)',
   padding: grid * 2,
   margin: `0 0 ${grid}px 0`,
-  color: "black",
+  color:  isDragging ? "black" : "white",
   // change background colour if dragging
-  background: isDragging ? "DarkSeaGreen" : "grey",
+  background: isDragging ? "SandyBrown" : "MidnightBlue",
   borderRadius: '.5rem',
   fontWeight: 'bold',
   // styles we need to apply on draggables
@@ -43,9 +43,9 @@ const getSelectedItemStyle = (isDragging, draggableStyle) => ({
   padding: grid * 2,
   margin: `0 0 ${grid}px 0`,
   boxShadow: '2px 4px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.19)',
-  color: "black",
+  color:  isDragging ? "white" : "black",
   // change background colour if dragging
-  background: isDragging ? "grey" : "DarkSeaGreen",
+  background: isDragging ? "MidnightBlue" : "SandyBrown",
   borderRadius: '.5rem',
   fontWeight: 'bold',
   // styles we need to apply on draggables
