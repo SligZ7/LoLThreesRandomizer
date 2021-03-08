@@ -113,7 +113,7 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
     }
 
     const handlePlayAgain = () => {
-        handleRandomize();
+        // handleRandomize();
         setTracked(false);
     }
 
@@ -133,7 +133,7 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
     }
 
     const handleGameWin = (winner) => {
-        if(redTeam.some(r => r.champion === "Champion") || blueTeam.some(b => b.champion === "Champion")){
+        if (redTeam.some(r => r.champion === "Champion") || blueTeam.some(b => b.champion === "Champion")) {
             console.error('Cant submit without champion entries');
             return;
         }
@@ -180,7 +180,7 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
         const red = redTeamArray.join(',');
         const blue = blueTeamArray.join(',');
         axios.post('http://localhost:5000/games',
-            { map, game_size: redTeam.length, winners, losers, winning_side: 'red', loserIds, winnerIds, blue, red, date: moment(Date.now()).tz("America/New_York").format('YYYY-MM-DD') }).then(() => setTracked(true));
+            { map, game_size: redTeam.length, winners, losers, winning_side: winner, loserIds, winnerIds, blue, red, date: moment(Date.now()).tz("America/New_York").format('YYYY-MM-DD') }).then(() => setTracked(true));
     }
 
     return (
@@ -209,13 +209,13 @@ const Teams = ({ setAvailable, selected, setSelected }) => {
             <div style={{ display: 'flex', minHeight: '300px' }}>
                 <div style={{ marginRight: '10px' }}>
                     <TeamTable team={blueTeam} setTeam={setBlueTeam} isAram={isAram} color="blue" />
-                    {!tracked && <Button variant="dark" type="button" onClick={handleOpenDialog('blue')} style={{ backgroundColor: '#00008B', marginRight: '2rem' }}>
+                    {!tracked && <Button variant="dark" type="button" disabled={redTeam.some(r => r.champion === "Champion") || blueTeam.some(b => b.champion === "Champion")} onClick={handleOpenDialog('blue')} style={{ backgroundColor: '#00008B', marginRight: '2rem' }}>
                         Blue wins
                         </Button>}
                 </div>
                 <div>
                     <TeamTable team={redTeam} setTeam={setRedTeam} isAram={isAram} color="red" />
-                    {!tracked && <Button variant="dark" type="button" onClick={handleOpenDialog('red')} style={{ backgroundColor: '#8B0000' }}>
+                    {!tracked && <Button variant="dark" type="button"  disabled={redTeam.some(r => r.champion === "Champion") || blueTeam.some(b => b.champion === "Champion")} onClick={handleOpenDialog('red')} style={{ backgroundColor: '#8B0000' }}>
                         Red wins
                          </Button>}
                 </div>

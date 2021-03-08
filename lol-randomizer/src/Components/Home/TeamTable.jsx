@@ -55,11 +55,11 @@ export default function TeamsTable({ team, setTeam, color, isAram }) {
                                 setTeam([...team.slice(0, index), { ...team[index], champion: newInputValue }, ...team.slice(index + 1)]);
                             }}
                             options={champs}
-                            style={{ width: 340,}}
+                            style={{ width: 340, }}
                             renderInput={(params) => <TextField {...params} variant="outlined" />}
                         />
                         <div >
-                            <img src={images[`${player.champion}Square.png`].default} style={{ width: '57px', height: '57px' }} />
+                            {player.champion !== "Champion" && <img src={images[`${player.champion}Square.png`].default} style={{ width: '57px', height: '57px' }} />}
                         </div>
                     </div>
                 </div>
