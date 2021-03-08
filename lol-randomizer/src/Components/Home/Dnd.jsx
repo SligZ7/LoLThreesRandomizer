@@ -1,5 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import sr from '../../Assets/bg.jpg';
+
+
+
 /**
  * Moves an item from one list to another list.
  */
@@ -18,46 +22,50 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 
 const grid = 8;
 
-const getItemStyle = (isDragging, draggableStyle) => ({
+const getAvailableItemStyle = (isDragging, draggableStyle) => ({
+  // some basic styles to make the items look a bit nicer
+  userSelect: "none",
+  boxShadow: '2px 4px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.19)',
+  padding: grid * 2,
+  margin: `0 0 ${grid}px 0`,
+  color:  isDragging ? "black" : "white",
+  // change background colour if dragging
+  background: isDragging ? "SandyBrown" : "MidnightBlue",
+  borderRadius: '.5rem',
+  fontWeight: 'bold',
+  // styles we need to apply on draggables
+  ...draggableStyle
+});
+
+const getSelectedItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
   userSelect: "none",
   padding: grid * 2,
   margin: `0 0 ${grid}px 0`,
-  color: "black",
+  boxShadow: '2px 4px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.19)',
+  color:  isDragging ? "white" : "black",
   // change background colour if dragging
-  background: isDragging ? "lightgreen" : "grey",
-
+  background: isDragging ? "MidnightBlue" : "SandyBrown",
+  borderRadius: '.5rem',
+  fontWeight: 'bold',
   // styles we need to apply on draggables
   ...draggableStyle
 });
 
 const getListStyle = isDraggingOver => ({
-  background: isDraggingOver ? "lightblue" : "lightgrey",
+  boxShadow: '4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+  backgroundImage: `url(${sr})`,
+  // backgroundColor: 'rgba(255, 0, 0, .3)',
+  backgroundPosition: '-900px -0px',
+  backgroundSize: '2000px',
+  opacity: '1',
   padding: grid,
-  width: 150,
+  width: 200,
   height: 750,
+  borderRadius: '.5rem'
 });
 
-const Dnd = ({ players, setPlayers, handleRandomize }) => {
-
-  useEffect(() => {
-    handleRandomize();
-  // eslint-disable-next-line
-  }, [players])
-  /**
- * A semi-generic way to handle multiple lists. Matches
- * the IDs of the droppable container to the names of the
- * source arrays stored in the state.
- */
-  const id2List = {
-    droppable: 'items',
-    droppable2: 'selected'
-  };
-
-  const getList = (id) => {
-    const list = players[id2List[id]]
-    return list;
-  };
+const Dnd = ({ available, selected, setAvailable, setSelected }) => {
 
   const onDragEnd = (result) => {
 
@@ -70,8 +78,8 @@ const Dnd = ({ players, setPlayers, handleRandomize }) => {
     if (source.droppableId === destination.droppableId) {
       return;
     } else {
-      const sourceList = getList(source.droppableId);
-      const destList = getList(destination.droppableId);
+      const sourceList = source.droppableId === 'available' ? available : selected;
+      const destList = destination.droppableId === 'available' ? available : selected;
       if (sourceList && destList) {
         const result = move(
           sourceList,
@@ -80,10 +88,12 @@ const Dnd = ({ players, setPlayers, handleRandomize }) => {
           destination
         );
 
-        setPlayers({
-          items: result.droppable,
-          selected: result.droppable2
-        });
+        setAvailable(result.available);
+        setSelected(result.selected);
+        localStorage.setItem('selected', JSON.stringify(result.selected));
+        localStorage.setItem('available',  JSON.stringify(result.available));
+       
+       
       }
     }
   }
@@ -91,8 +101,8 @@ const Dnd = ({ players, setPlayers, handleRandomize }) => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div style={{ display: 'flex' }}>
-        <div style={{ marginRight: '5rem' }}>
-          <Droppable droppableId="droppable">
+        <div style={{ marginRight: '3rem' }}>
+          <Droppable droppableId="available">
             {(provided, snapshot) => (
               <div
                 {...provided.droppableProps}
@@ -102,16 +112,16 @@ const Dnd = ({ players, setPlayers, handleRandomize }) => {
                 <p style={{
                   marginTop: '1rem',
                   color: "black",
-                  marginLeft: '2.5rem',
+                  fontWeight: 'bold'
                 }}>Available</p>
-                {players.items.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
+                {available.map((item, index) => (
+                  <Draggable key={item.id} draggableId={`${item.id}`} index={index}>
                     {(provided, snapshot) => (
                       <div
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
-                        style={getItemStyle(
+                        style={getAvailableItemStyle(
                           snapshot.isDragging,
                           provided.draggableProps.style
                         )}
@@ -126,8 +136,8 @@ const Dnd = ({ players, setPlayers, handleRandomize }) => {
             )}
           </Droppable>
         </div>
-        <div style={{ marginRight: '5rem' }}>
-          <Droppable droppableId="droppable2">
+        <div >
+          <Droppable droppableId="selected">
             {(provided, snapshot) => (
               <div
                 {...provided.droppableProps}
@@ -137,16 +147,16 @@ const Dnd = ({ players, setPlayers, handleRandomize }) => {
                 <p style={{
                   marginTop: '1rem',
                   color: "black",
-                  marginLeft: '2.5rem',
+                  fontWeight: 'bold'
                 }}>Selected</p>
-                {players.selected.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
+                {selected.map((item, index) => (
+                  <Draggable key={item.id} draggableId={`${item.id}`} index={index}>
                     {(provided, snapshot) => (
                       <div
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
-                        style={getItemStyle(
+                        style={getSelectedItemStyle(
                           snapshot.isDragging,
                           provided.draggableProps.style
                         )}
